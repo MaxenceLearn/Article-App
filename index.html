@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quickly News</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./assets/favicon.ico" />
+</head>
+<body>
+    <header>
+       <img src="./assets/logo.png" alt="Logo" class="logo" id="logo">
+       <img onclick="getHome()" src="./assets/home.png" alt="Logo" class="button" id="home">
+       <img onclick="getFlow()" src="./assets/flow.png" alt="Logo" class="button" id="flow">
+       <img onclick="getReading()" src="./assets/settings.png" alt="Logo" class="button" id="read">
+       <img onclick="getEdit()" src="./assets/edit.png" alt="Logo" class="button" id="edit">
+       <div class="selector"></div>
+    </header>
+
+    <!-- -------------------------------------------- -->
+
+    <section class="section home">
+        <section class="home-main">
+            <div class="home-head">
+                <input type="text" class="search" placeholder="Search">
+                <div>
+                    <img src="./assets/favoris.png" alt="Logo" id="favoris" class="icos">
+                    <img src="./assets/notification.png" alt="Logo" id="notifs" class="icos">
+                </div>
+            </div>
+            <div style="width: 100%;" class="divider"></div>
+            <h1 class="home-title">Article Of The Day</h1>
+            <div class="home-otd"> 
+                <div class="home-summup">
+                    <h1 class="summup-title">How to become a super 3d artist by yourself</h1>
+                    <p class="summup-desc">Calling out for your 3d artist who wanna be a super standout in the market, read this article !</p>
+                    <button class="summup-more">Read More</button> 
+                </div>
+                <img src="./assets/summup.jpg" alt="Logo" class="home-img">
+            </div>
+            <div class="rowinfos">
+                <h1 class="home-title">Most recent articles</h1>
+                <button onclick="getFlow()" class="home-more">See More</button>
+            </div>
+            <div class="topics">
+                <div id="current" class="topic">Tech</div>
+                <div class="topic">Health</div>
+                <div class="topic">Productivity</div>
+                <div class="topic">Design</div>
+                <div class="topic">Art</div>
+                <div class="topic">Business</div>
+                <div class="topic">Marketing</div>
+                <div class="topic">Education</div>
+            </div>
+            <div class="articles">
+                <div class="home-art-main">
+                    <img src="./assets/abstract.jpg"Logo" class="home-art-img">
+                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
+                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+                </div>
+                <div class="home-art-main">
+                    <img src="./assets/abstract2.jpg"Logo" class="home-art-img">
+                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
+                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+                </div>
+                <div id="third" class="home-art-main">
+                    <img src="./assets/abstract3.png"Logo" class="home-art-img">
+                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
+                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+                </div>
+            </div>
+        </section>
+        <section class="infos">
+            <div class="buttons-log">
+                <button class="sign">Sign In</button>
+                <button style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign">SignUp</button>
+            </div>
+            <div class="premium">
+                <img src="./assets/premium.png" alt="Logo" class="premium-img">
+                <h1 class="premium-title">Get premium and unlock amazing perks</h1>
+                <p class="premium-desc">Being a premium member help us to provide the best experience</p>
+                <button class="premium-button">Get Premium</button>
+            </div>
+            <div style="margin-top: 32px; width: 90%;" class="divider"></div>
+        </section>
+    </section>
+    <section class="section flow"></section>
+    
+    <!-- -------------------------------------------- -->
+
+    <section class="section read">
+        <section class="art-main">
+            <h1 class="art-title">Title here</h1>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/A9dPF51tRkQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p class="art-text">English teachers have long been the subject of student complaints and jokes, but recent studies and discussions within the education community have shed light on the reasons behind this widespread dissatisfaction.One major issue is the lack of support and resources for English teachers. Many are forced to teach outdated curriculums and materials, leaving them unable to adequately prepare students for the demands of the modern world. Additionally, English teachers often have large class sizes and limited access to technology and other resources, making it difficult for them to engage and motivate students.</p>
+            <div class="art-callout"></div>
+            <p class="art-text">Another problem is the outdated teaching methods used by many English teachers. Traditional teaching methods, such as lecturing and rote memorization, are no longer effective in today's fast-paced, technology-driven society. Students need to be taught critical thinking skills and the ability to analyze and interpret complex texts, but many English teachers are not trained or equipped to do so. Furthermore, English teachers are often undervalued and underpaid. Many are part-time or adjunct professors, without the same benefits and support as full-time teachers. This lack of support and recognition can lead to burnout and a lack of enthusiasm in the classroom, further contributing to students' dissatisfaction. In order to improve the quality of English education, there needs to be a focus on professional development and support for English teachers. This includes providing them with updated curriculums and materials, training them in modern teaching methods, and valuing their contributions to the education system. Only then can we expect to see a positive change in the way students perceive and engage with English teachers.</p>
+        </section>
+
+        <!-- -------------------------------------------- -->
+
+        <section class="more-art">
+            <div class="more-main">
+                <img src="./assets/more1.png"Logo" class="more-img">
+                <h1 class="more-title">Why you beed AI Robot for Your Office And how it works </h1>
+                <p class="more-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+            </div>
+            <div class="more-main">
+                <img src="./assets/more2.png"Logo" class="more-img">
+                <h1 class="more-title">Why should you learn how to learn, what moarin goat</h1>
+                <p class="more-desc">I am filling this description with junk content since I havn’t la</p>
+            </div>
+            <div class="divider"></div>
+            <h1 style="font-weight: 600;" class="more-title">More Interesting Topic</h1>
+            <div class="topics">
+                <div class="topic">Tech</div>
+                <div class="topic">Health</div>
+                <div class="topic">Productivity</div>
+                <div class="topic">Design</div>
+            </div>
+            <div class="ad">Publicité ici</div>
+        </section>
+    </section>
+
+    <!-- -------------------------------------------- -->
+
+    <section class="section edit"></section>
+</body>
+<script src="script.js"></script>
+</html>
