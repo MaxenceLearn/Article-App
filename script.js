@@ -59,4 +59,4 @@ function getEdit() {
 document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
 document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
 document.getElementById(`home`).style.filter = 'invert(100%)'
-getHome()
+getEdit()

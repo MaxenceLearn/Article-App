@@ -121,12 +121,23 @@ section.home {
 
 section.flow {
     display: none;
+    padding: 30px;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100vh;
-    background-color: red;
+}
+
+div.topics-flow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top:  20px;
+}
+
+div.articles-flow {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 section.read {
@@ -139,17 +150,59 @@ section.read {
 section.edit {
     display: none;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100vh;
-    background-color: yellow;
+    padding: 40px;
+}
+
+h1.edit-title {
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+button.edit-new {
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px dashed rgb(231, 231, 231);
+    background: white;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: 400;
+    transition: filter 1s ease;
 }
 
 h1.art-title {
     margin-bottom: 20px;
     font-size: 2.5rem;
     font-weight: 400;
+}
+
+ul.edit-elements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+li.element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    border-left: 1px solid rgb(231, 231, 231);
+    border-right: 1px solid rgb(231, 231, 231);
+    background: white;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: 400;
+    transition: filter 1s ease;
 }
 
 section.art-main {
@@ -219,6 +272,7 @@ div.divider {
     margin-bottom: 5px;
 }
 
+
 div.topics {
     display: flex;
     flex-wrap: wrap;
@@ -271,8 +325,6 @@ p.more-desc {
 
 section.home-main {
     overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
     width: 70%;
     height: 100vh;
     padding: 30px;
@@ -281,6 +333,14 @@ section.home-main {
 div.home-art-main {
     margin-top: 20px;
     margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+}
+
+div.flow-art-main {
+    margin-top: 20px;
+    margin-right: 40px;
     display: flex;
     flex-direction: column;
     width: 350px;
@@ -537,6 +597,16 @@ button.sign {
     #home {
         margin-top: 22px;
         margin-left: 37px;
+    }
+    div.articles-flow {
+       justify-content: center;
+    }
+    div.flow-art-main {
+        width: 100%;
+        margin-right: 0px;
+    }
+    section.flow {
+        padding: 10px;
     }
     img.button {
         margin-inline: 6%;
