@@ -169,9 +169,6 @@
             <div class="art-callout"></div>
             <p class="art-text">Another problem is the outdated teaching methods used by many English teachers. Traditional teaching methods, such as lecturing and rote memorization, are no longer effective in today's fast-paced, technology-driven society. Students need to be taught critical thinking skills and the ability to analyze and interpret complex texts, but many English teachers are not trained or equipped to do so. Furthermore, English teachers are often undervalued and underpaid. Many are part-time or adjunct professors, without the same benefits and support as full-time teachers. This lack of support and recognition can lead to burnout and a lack of enthusiasm in the classroom, further contributing to students' dissatisfaction. In order to improve the quality of English education, there needs to be a focus on professional development and support for English teachers. This includes providing them with updated curriculums and materials, training them in modern teaching methods, and valuing their contributions to the education system. Only then can we expect to see a positive change in the way students perceive and engage with English teachers.</p>
         </section>
-
-        <!-- -------------------------------------------- -->
-
         <section class="more-art">
             <div class="more-main">
                 <img src="./assets/more1.png"Logo" class="more-img">
@@ -191,18 +188,54 @@
                 <div class="topic">Productivity</div>
                 <div class="topic">Design</div>
             </div>
-            <div class="ad">Publicité ici</div>
+            <div class="ad"></div>
         </section>
     </section>
 
     <!-- -------------------------------------------- -->
 
     <section class="section edit">
-        <h1 class="edit-title">Basic Interactive Editor</h1>
-        <button class="edit-new">Add a new element</button>
-        <ul class="edit-elements">
-            <li class="element">test</li>
+        <h1 class="edit-title">Article Editor V1</h1>
+        <input maxlength="250" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
+        <textarea maxlength="2000" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
+        <div class="buttons-collumn">
+                <button class="edit-publish"><img class="button-icon" src="./assets/publish.png">Publish</button>
+                <button class="edit-ai"><img class="button-icon" src="./assets/star.png">Ai Enhance</button>
+            </div>
+        <button onclick="toggleMenu()" class="edit-new">Add a new element</button>
+        <ul class="edit-elements close">
+            <li class="element">
+                <img src="./assets/paragraph.png" class="icon-element">
+                <p class="element-infos">Paragraph<br><span class="element-desc">Add paragraph where you can add up to 2000 caracters</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/h1.png" class="icon-element">
+                <p class="element-infos">H1<br><span class="element-desc">Display a big title</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/h2.png" class="icon-element">
+                <p class="element-infos">H2<br><span class="element-desc">Display a medium title</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/h3.png" class="icon-element">
+                <p class="element-infos">H3<br><span class="element-desc">Display a little title</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/quote.png" class="icon-element">
+                <p class="element-infos">Quote<br><span class="element-desc">Make your quote in a special font with a little indentation</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/callout.png" class="icon-element">
+                <p class="element-infos">Callout<br><span class="element-desc">Display a customisable box to enter important informations</span></p>
+            </li>
+            <li class="element">
+                <img src="./assets/image.png" class="icon-element">
+                <p class="element-infos">Image<br><span class="element-desc">Add an image to your article wich can be resized</span></p>
+            </li>
         </ul>
+        <div class="art-content full">
+            
+        </div>
     </section>
 </body>
 <script src="script.js"></script>

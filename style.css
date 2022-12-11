@@ -162,7 +162,7 @@ h1.edit-title {
 
 button.edit-new {
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
     height: 50px;
     border-radius: 5px;
@@ -180,17 +180,36 @@ h1.art-title {
     font-weight: 400;
 }
 
+img.icon-element {
+    width: 50px;
+    margin-left: 10px;
+}
+
 ul.edit-elements {
+    opacity: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     list-style: none;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+p.element-infos {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+span.element-desc {
+    color:rgb(142, 142, 142);
+    font-size: 0.8rem;
+    font-weight: 300;
 }
 
 li.element {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
     height: 70px;
     border-radius: 0 0 5px 5px;
@@ -236,6 +255,10 @@ div.ad {
     width: 100%;
     height: 80px;
     background-color: rgb(0, 0, 0);
+    background-image: url('./assets/ad1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 p.art-text {
@@ -497,6 +520,147 @@ h1.premium-title {
     z-index: 10;
 }
 
+input.edit-title-input {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid rgb(231, 231, 231);
+    padding-inline: 20px;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: Poppins, sans-serif;
+    outline: none;
+}
+
+img.button-icon {
+    width: 20px;
+    margin-right: 10px;
+    margin-bottom: 1.5px;
+}
+
+div.buttons-collumn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+button.edit-ai {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 42px;
+    border-radius: 5px;
+    border: none;
+    background-color: #6c5ce7;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    outline: none;
+    cursor: not-allowed;
+}
+
+button.edit-publish {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 42px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00b894;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    outline: none;
+    cursor: pointer;
+}
+
+
+textarea.edit-textarea {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid rgb(231, 231, 231);
+    padding: 20px;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: Poppins, sans-serif;
+    outline: none;
+    resize: none;
+}
+
+div.art-content {
+    transition: all 0.5s ease;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.reduced {
+    animation-name: full;
+    animation-duration: 0.5s;
+    animation-fill-mode: backwards;
+}
+
+.full {
+    animation-name: full;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.open {
+    animation-name: open;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.close {
+    animation-name: close;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes close {
+    0% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes open {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+
+@keyframes full {
+    0% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-240px);
+    }
+}
+
 p.premium-desc {
     color: #969696;
     font-size: 0.9rem;
@@ -557,7 +721,7 @@ button.sign {
 }
 
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 320px) {
     #edit {
         display: none;
     }
@@ -645,5 +809,8 @@ button.sign {
     div.articles {
         flex-direction: column;
         align-items: center;
+    }
+    section.edit {
+        padding: 10px;
     }
 }

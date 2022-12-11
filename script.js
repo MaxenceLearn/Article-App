@@ -55,8 +55,18 @@ function getEdit() {
 }
 
 
+function toggleMenu() {
+    document.querySelector('.art-content').classList.toggle('full')
+    document.querySelector('.edit-elements').classList.toggle('open')
+    document.querySelector('.edit-elements').classList.toggle('close')
+}
 
 document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
 document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
 document.getElementById(`home`).style.filter = 'invert(100%)'
 getEdit()
+
+elements =  document.querySelectorAll('.edit-elements')
+elements.forEach(item => {
+   console.log(item)
+})
