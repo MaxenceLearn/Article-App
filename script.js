@@ -66,7 +66,30 @@ document.querySelector('.selector').style.left = `${document.getElementById(`hom
 document.getElementById(`home`).style.filter = 'invert(100%)'
 getEdit()
 
-elements =  document.querySelectorAll('.edit-elements')
-elements.forEach(item => {
-   console.log(item)
-})
+
+
+items = document.querySelectorAll(".element");//Get items
+artcontent = document.querySelector(".art-content");//Get art-content
+items.forEach(function(item) {
+  item.addEventListener("click", function() {
+    newelement = document.createElement(`div`);//Create new element
+    newelement.setAttribute(`id`, `${item.id}`);//Set class
+    newelement.setAttribute(`class`, `to-publish`);//Set class
+    artcontent.appendChild(newelement);
+    toggleMenu();
+  });
+});
+
+
+function localcheck() {
+    list = []
+    document.querySelectorAll('.to-publish').forEach(item => {
+        dico = {}
+        dico['type'] = item.id
+        dico[`${item.id}`] = 'test'
+        list.push(dico)
+    })
+    console.log(list)
+}
+
+
