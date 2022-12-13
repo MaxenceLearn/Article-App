@@ -75,6 +75,7 @@ items.forEach(function(item) {
     newelement = document.createElement(`div`);//Create new element
     newelement.setAttribute(`id`, `${item.id}`);//Set class
     newelement.setAttribute(`class`, `to-publish`);//Set class
+    newelement.innerHTML = `<textarea id='${item.id}'></textarea>`
     artcontent.appendChild(newelement);
     toggleMenu();
   });
