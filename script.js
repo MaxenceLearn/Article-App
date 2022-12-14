@@ -73,9 +73,31 @@ artcontent = document.querySelector(".art-content");//Get art-content
 items.forEach(function(item) {
   item.addEventListener("click", function() {
     newelement = document.createElement(`div`);//Create new element
-    newelement.setAttribute(`id`, `${item.id}`);//Set class
+    newelement.setAttribute(`id`, `${item.id + '-e'}`);//Set classLogo
     newelement.setAttribute(`class`, `to-publish`);//Set class
-    newelement.innerHTML = `<textarea id='${item.id}'></textarea>`
+    switch (item.id) {
+        case 'paragraph':
+            newelement.innerHTML = `<textarea class='${item.id}' maxlength="2000" type='text' placeholder='Type a paragraph here'>`
+            break;
+        case 'h1':
+            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a big title here'>`
+            break;
+        case 'h2':
+            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a medium title here'>`
+            break;
+        case 'h3':
+            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a small title here'>`
+            break;
+        case 'quote':
+            newelement.innerHTML = `<textarea class='${item.id}' maxlength="350" type='text' placeholder='Type a quote here'>`
+            break;
+        case 'callout':
+            newelement.innerHTML = `<img class='callout-img' src='./assets/announce.png'><textarea class='${item.id}' maxlength="400" type='text' placeholder='Type a callout here'>`
+            break;
+        case 'image':
+            newelement.innerHTML = `<div class='rowmenu'><textarea id='toload' class='${item.id}' maxlength="500" type='text' placeholder='Type an image url here'></textarea><button class='load-img' onclick='imageload()'>Load</button></div>`
+            break;
+    }
     artcontent.appendChild(newelement);
     toggleMenu();
   });
@@ -85,12 +107,42 @@ items.forEach(function(item) {
 function localcheck() {
     list = []
     document.querySelectorAll('.to-publish').forEach(item => {
-        dico = {}
-        dico['type'] = item.id
-        dico[`${item.id}`] = 'test'
+        for (const child of item.children) {
+            if (child.tagName === 'TEXTAREA') {value = child.value} else {
+                for (const child2 of child.children) {
+                    if (child2.tagName === 'TEXTAREA') {value = child2.value}
+                }
+            }
+        }
+        dico = {
+            'type': `${item.id}`,
+            'value': `${value}`,
+        }
+        
         list.push(dico)
     })
     console.log(list)
 }
 
 
+
+
+function imageload() {
+    const img = new Image();
+    img.src = document.getElementById('toload').value;
+    console.log(img.src)
+    if (img.complete) {
+      console.log('complete')
+      document.querySelector('.to-publish').style.backgroundImage = `url('${document.getElementById('toload').value}')`
+      document.getElementById('toload').style.border = '1px solid #e7e7e7'
+    } else {
+      img.onload = () => {
+        document.querySelector('.to-publish').style.backgroundImage = `url(${document.getElementById('toload').value})`
+        document.getElementById('toload').style.border = '1px solid #e7e7e7'
+      };
+      img.onerror = () => {
+        console.log('error')
+        document.getElementById('toload').style.border = '1px solid red'
+      };
+    }
+}

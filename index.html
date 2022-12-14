@@ -195,7 +195,7 @@
     <!-- -------------------------------------------- -->
 
     <section class="section edit">
-        <h1 contentEditable="true" data-max-length="10" class="edit-title">Article Editor V1</h1>
+        <h1 data-max-length="10" class="edit-title">Article Editor V1</h1>
         <input maxlength="250" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="2000" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
         <div class="buttons-collumn">
@@ -204,31 +204,31 @@
             </div>
         <button onclick="toggleMenu()" class="edit-new">Add a new element</button>
         <ul class="edit-elements close">
-            <li id="paragraph" class="element">
+            <li id="paragraph" class="element paragraph">
                 <img src="./assets/paragraph.png" class="icon-element">
                 <p class="element-infos">Paragraph<br><span class="element-desc">Add paragraph where you can add up to 2000 caracters</span></p>
             </li>
-            <li id="h1" class="element">
+            <li id="h1" class="element h1">
                 <img src="./assets/h1.png" class="icon-element">
                 <p class="element-infos">H1<br><span class="element-desc">Display a big title</span></p>
             </li>
-            <li id="h2" class="element">
+            <li id="h2" class="element h2">
                 <img src="./assets/h2.png" class="icon-element">
                 <p class="element-infos">H2<br><span class="element-desc">Display a medium title</span></p>
             </li>
-            <li id="h3" class="element">
+            <li id="h3" class="element h3">
                 <img src="./assets/h3.png" class="icon-element">
                 <p class="element-infos">H3<br><span class="element-desc">Display a little title</span></p>
             </li>
-            <li id="quote" class="element">
+            <li id="quote" class="element quote">
                 <img src="./assets/quote.png" class="icon-element">
                 <p class="element-infos">Quote<br><span class="element-desc">Make your quote in a special font with a little indentation</span></p>
             </li>
-            <li id="callout" class="element">
+            <li id="callout" class="element callout">
                 <img src="./assets/callout.png" class="icon-element">
                 <p class="element-infos">Callout<br><span class="element-desc">Display a customisable box to enter important informations</span></p>
             </li>
-            <li id="image" class="element">
+            <li id="image" class="element image">
                 <img src="./assets/image.png" class="icon-element">
                 <p class="element-infos">Image<br><span class="element-desc">Add an image to your article wich can be resized</span></p>
             </li>
