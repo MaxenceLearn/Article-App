@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quickly News</title>
+    <title>Quick News</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="./assets/favicon.ico" />
 </head>
-<body>
+<body class="body">
+    <div id="notif">TEST</div>
     <header>
        <img src="./assets/logo.png" alt="Logo" class="logo" id="logo">
        <img onclick="getHome()" src="./assets/home.png" alt="Logo" class="button" id="home">
@@ -54,10 +55,10 @@
                 <div class="topic">Education</div>
             </div>
             <div class="articles">
-                <div class="home-art-main">
+                <div onclick="getReading()" class="home-art-main">
                     <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+                    <h1 class="home-art-title">Fake News & Lateral Reading</h1>
+                    <p class="home-art-desc">It's important to be able to distinguish between credible sources and fake news.</p>
                 </div>
                 <div class="home-art-main">
                     <img src="./assets/abstract2.jpg"Logo" class="home-art-img">
@@ -161,24 +162,24 @@
 
     <section class="section read">
         <section class="art-main">
-            <h1 class="art-title">Title here</h1>
+            <h1 class="art-title">Fake News & Lateral Reading</h1>
             <div class="video-container">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/A9dPF51tRkQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <p class="art-text">English teachers have long been the subject of student complaints and jokes, but recent studies and discussions within the education community have shed light on the reasons behind this widespread dissatisfaction.One major issue is the lack of support and resources for English teachers. Many are forced to teach outdated curriculums and materials, leaving them unable to adequately prepare students for the demands of the modern world. Additionally, English teachers often have large class sizes and limited access to technology and other resources, making it difficult for them to engage and motivate students.</p>
+            <p class="art-text">It is likely that the video of the snowboarder being chased by a bear is a hoax. Brown bears do not live in Japan, and the audio of fake growls added to the video further suggests that the video is not genuine. Additionally, the fact that the bear appears to be split in half and part of the image is missing indicates that the video has been edited or manipulated in some way. It is always important to be skeptical of videos and other information that we encounter online, and to verify their authenticity before believing or sharing them.</p>
             <div class="art-callout"></div>
-            <p class="art-text">Another problem is the outdated teaching methods used by many English teachers. Traditional teaching methods, such as lecturing and rote memorization, are no longer effective in today's fast-paced, technology-driven society. Students need to be taught critical thinking skills and the ability to analyze and interpret complex texts, but many English teachers are not trained or equipped to do so. Furthermore, English teachers are often undervalued and underpaid. Many are part-time or adjunct professors, without the same benefits and support as full-time teachers. This lack of support and recognition can lead to burnout and a lack of enthusiasm in the classroom, further contributing to students' dissatisfaction. In order to improve the quality of English education, there needs to be a focus on professional development and support for English teachers. This includes providing them with updated curriculums and materials, training them in modern teaching methods, and valuing their contributions to the education system. Only then can we expect to see a positive change in the way students perceive and engage with English teachers.</p>
+            <p class="art-text">Lateral reading is a term that refers to the process of gathering information about a particular topic by looking at a variety of sources, rather than relying on just one source. This approach allows you to get a more well-rounded view of the topic at hand, and can help you to better understand the issue from different perspectives. By looking at multiple sources, you can also compare and contrast different viewpoints, which can help you to develop your own informed opinion on the topic. Lateral reading is an important skill for anyone who wants to gain a deeper understanding of a particular subject.</p>
         </section>
         <section class="more-art">
             <div class="more-main">
                 <img src="./assets/more1.png"Logo" class="more-img">
-                <h1 class="more-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="more-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
+                <h1 class="more-title">Why you need AI Robot for Your Office And how it works </h1>
+                <p class="more-desc">In this article, we’ll learn about how to discuss to a robot and work with him</p>
             </div>
             <div class="more-main">
                 <img src="./assets/more2.png"Logo" class="more-img">
-                <h1 class="more-title">Why should you learn how to learn, what moarin goat</h1>
-                <p class="more-desc">I am filling this description with junk content since I havn’t la</p>
+                <h1 class="more-title">Practice Lateral Reading for Deeper Understanding</h1>
+                <p class="more-desc">This article offers practical tips and strategies for practicing lateral reading.</p>
             </div>
             <div class="divider"></div>
             <h1 style="font-weight: 600;" class="more-title">More Interesting Topic</h1>
@@ -239,4 +240,33 @@
     </section>
 </body>
 <script src="script.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('song', (data) => {
+    console.log(data);
+    var audio = new Audio(`./assets/${data}.m4a`);
+    audio.play();
+  });
+
+  socket.on('message', (data) => {
+    document.getElementById('notif').innerHTML = data;
+    document.getElementById('notif').classList.add('activenotif');
+    setTimeout(() => {
+      document.getElementById('notif').classList.remove('activenotif');
+    }, 5000);
+  });
+
+  socket.on('spin' , (data) => {
+    document.querySelector('.body').classList.add('spin');
+    setTimeout(() => {
+      document.querySelector('.body').classList.remove('spin');
+    }, 5000);
+  });
+
+socket.on('ad', (data) => {
+    console.log(data);
+  document.querySelector('.ad').style.backgroundImage = `url(${data})`;
+});
+</script>
 </html>
