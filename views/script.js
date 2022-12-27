@@ -147,4 +147,66 @@ function imageload() {
     }
 }
 
+document.getElementById('signup').addEventListener('click', () => {
+    fetch('/log',
+    {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'pseudo': document.getElementById('pseudo').value,
+                'password': document.getElementById('password').value,
+            })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Some informations are missing not unique or incorrect')
+        } else {
+            document.querySelector('.container-log').style.display = 'none'
+        }
+    })
+})
 
+document.querySelector('.sign').addEventListener('click', () => {
+    document.querySelector('.container-log').style.display = 'flex'
+})
+
+document.getElementById('signin').addEventListener('click', () => {
+    fetch('/log/login',
+    {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'pseudo': document.getElementById('pseudo-s').value,
+                'password': document.getElementById('password-s').value,
+            })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Some informations are missing not unique or incorrect')
+        } else {
+            document.querySelector('.container-log').style.display = 'none'
+        }
+    })
+})
+
+function getInfos() {
+    fetch('/getinfos')
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(error)
+        } else {
+            document.querySelector('.buttons-log').style.display = 'none'
+            document.querySelector('.user-img').src = data.avatar
+            document.getElementById('user-name').innerHTML = data.pseudo
+        }
+    })
+}
+
+getInfos()

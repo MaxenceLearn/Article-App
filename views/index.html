@@ -9,7 +9,6 @@
     <link rel="icon" href="./assets/favicon.ico" />
 </head>
 <body class="body">
-    <div id="notif">TEST</div>
     <header>
        <img src="./assets/logo.png" alt="Logo" class="logo" id="logo">
        <img onclick="getHome()" src="./assets/home.png" alt="Logo" class="button" id="home">
@@ -19,6 +18,19 @@
        <div class="selector"></div>
     </header>
 
+    <!-- -------------------------------------------- -->
+    <div class="container-log">
+        <div class="signup">
+            <input type="text" id="pseudo" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="signup">Sign Up</button>
+        </div>
+        <div class="signin">
+            <input type="text" id="pseudo-s" placeholder="Username">
+            <input type="password" id="password-s" placeholder="Password">
+            <button id="signin">Sign In</button>
+        </div>
+    </div>  
     <!-- -------------------------------------------- -->
 
     <section class="section home">
@@ -76,6 +88,10 @@
             <div class="buttons-log">
                 <button class="sign">Sign In</button>
                 <button style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign">SignUp</button>
+            </div>
+            <div class="user-infos">
+                <img src="./assets/default.png" alt="Logo" class="user-img">
+                <h1 id="user-name">User</h1>
             </div>
             <div class="premium">
                 <img src="./assets/premium.png" alt="Logo" class="premium-img">
