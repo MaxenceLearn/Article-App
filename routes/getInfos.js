@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
             });
         })
         .catch(error => res.json({
-            error
+            error: error
         }));
 });
 
