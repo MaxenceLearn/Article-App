@@ -3,8 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const avatarCheck = require('../middlewares/avatarCheck');
 
-router.post('/', (req, res) => {
+router.post('/', avatarCheck, (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({

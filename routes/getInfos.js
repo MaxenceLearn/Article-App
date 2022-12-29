@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 router.get('/', (req, res) => {
     const token = req.cookies.token;
-    if (!token) return req.logged = false, res.redirect('/');
+    if (!token) return res.json({ logged: false });
     const decodedToken = jwt.verify(token, 'TOKEN');
     const userId = decodedToken.userId;
     User.findOne({
@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
         })
         .then(user => {
             if (!user) {
-                req.logged = false;
+                return res.status(401).json({
+                    error: 'Utilisateur non trouvé !'
+                });
             }
             res.json({
                 pseudo: user.pseudo,

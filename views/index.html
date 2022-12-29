@@ -19,18 +19,17 @@
     </header>
 
     <!-- -------------------------------------------- -->
-    <div class="container-log">
-        <div class="signup">
+        <div id="signup-popup" class="log">
             <input type="text" id="pseudo" placeholder="Username">
+            <input type="text" id="avatar" placeholder="Avatar Url">
             <input type="password" id="password" placeholder="Password">
             <button id="signup">Sign Up</button>
         </div>
-        <div class="signin">
+        <div id="signin-popup" class="log">
             <input type="text" id="pseudo-s" placeholder="Username">
             <input type="password" id="password-s" placeholder="Password">
             <button id="signin">Sign In</button>
-        </div>
-    </div>  
+        </div> 
     <!-- -------------------------------------------- -->
 
     <section class="section home">
@@ -86,8 +85,8 @@
         </section>
         <section class="infos">
             <div class="buttons-log">
-                <button class="sign">Sign In</button>
-                <button style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign">SignUp</button>
+                <button id="signin-button" class="sign">Sign In</button>
+                <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign">SignUp</button>
             </div>
             <div class="user-infos">
                 <img src="./assets/default.png" alt="Logo" class="user-img">
@@ -180,7 +179,7 @@
         <section class="art-main">
             <h1 class="art-title">Fake News & Lateral Reading</h1>
             <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/A9dPF51tRkQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <p class="art-text">It is likely that the video of the snowboarder being chased by a bear is a hoax. Brown bears do not live in Japan, and the audio of fake growls added to the video further suggests that the video is not genuine. Additionally, the fact that the bear appears to be split in half and part of the image is missing indicates that the video has been edited or manipulated in some way. It is always important to be skeptical of videos and other information that we encounter online, and to verify their authenticity before believing or sharing them.</p>
             <div class="art-callout"></div>
@@ -215,8 +214,18 @@
         <h1 data-max-length="10" class="edit-title">Article Editor V1</h1>
         <input maxlength="250" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="2000" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
+        <div class="topics">
+            <div id="selected" class="topic select">Tech</div>
+            <div class="topic select health">Health</div>
+            <div class="topic select productivity">Productivity</div>
+            <div class="topic select design">Design</div>
+            <div class="topic select art">Art</div>
+            <div class="topic select business">Business</div>
+            <div class="topic select marketing">Marketing</div>
+            <div class="topic select education">Education</div>
+        </div>
         <div class="buttons-collumn">
-                <button onclick="localcheck()" class="edit-publish"><img class="button-icon" src="./assets/publish.png">Publish</button>
+                <button onclick="RTS()" class="edit-publish"><img class="button-icon" src="./assets/publish.png">Publish</button>
                 <button class="edit-ai"><img class="button-icon" src="./assets/star.png">Ai Enhance</button>
             </div>
         <button onclick="toggleMenu()" class="edit-new">Add a new element</button>
@@ -251,7 +260,7 @@
             </li>
         </ul>
         <div class="art-content full">
-            
+
         </div>
     </section>
 </body>

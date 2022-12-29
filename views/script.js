@@ -15,9 +15,11 @@ document.querySelectorAll('.button').forEach(item => {
         document.querySelectorAll('.topic').forEach(item => {
             item.style.border = '1px solid rgb(231, 231, 231)'
             item.style.backgroundColor = 'white'
+            item.id = ''
         })
         event.target.style.backgroundColor = 'rgb(231, 231, 231)'
         event.target.style.border = '1px solid rgb(0, 0, 0)'
+        event.target.id = 'selected'
     })
   })
 
@@ -72,48 +74,25 @@ items = document.querySelectorAll(".element");//Get items
 artcontent = document.querySelector(".art-content");//Get art-content
 items.forEach(function(item) {
   item.addEventListener("click", function() {
-    newelement = document.createElement(`div`);//Create new element
-    newelement.setAttribute(`id`, `${item.id + '-e'}`);//Set classLogo
-    newelement.setAttribute(`class`, `to-publish`);//Set class
-    switch (item.id) {
-        case 'paragraph':
-            newelement.innerHTML = `<textarea class='${item.id}' maxlength="2000" type='text' placeholder='Type a paragraph here'>`
-            break;
-        case 'h1':
-            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a big title here'>`
-            break;
-        case 'h2':
-            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a medium title here'>`
-            break;
-        case 'h3':
-            newelement.innerHTML = `<textarea class='${item.id}' maxlength="200" type='text' placeholder='Type a small title here'>`
-            break;
-        case 'quote':
-            newelement.innerHTML = `<textarea class='${item.id}' maxlength="350" type='text' placeholder='Type a quote here'>`
-            break;
-        case 'callout':
-            newelement.innerHTML = `<img class='callout-img' src='./assets/announce.png'><textarea class='${item.id}' maxlength="400" type='text' placeholder='Type a callout here'>`
-            break;
-        case 'image':
-            newelement.innerHTML = `<div class='rowmenu'><textarea id='toload' class='${item.id}' maxlength="500" type='text' placeholder='Type an image url here'></textarea><button class='load-img' onclick='imageload()'>Load</button></div>`
-            break;
-    }
+    newelement = document.createElement(`textarea`);//Create new element
+    newelement.setAttribute('draggable', 'true');//Set draggable
+    newelement.setAttribute(`id`, `${item.id}`);//Set classLogo
+    newelement.setAttribute(`class`, `${item.id}`);//Set class
+    newelement.classList.add('to-publish');//Add class to-publish
     artcontent.appendChild(newelement);
     toggleMenu();
   });
 });
 
 
-function localcheck() {
+function RTS() {
     list = []
+    list.push({'type': 'title', 'value': document.querySelector('.edit-title-input').value})
+    list.push({'type': 'description', 'value': document.querySelector('.edit-textarea').value})
+    list.push({'type': 'topic', 'value': document.getElementById('selected').innerText.toLowerCase()})
+    
     document.querySelectorAll('.to-publish').forEach(item => {
-        for (const child of item.children) {
-            if (child.tagName === 'TEXTAREA') {value = child.value} else {
-                for (const child2 of child.children) {
-                    if (child2.tagName === 'TEXTAREA') {value = child2.value}
-                }
-            }
-        }
+        value = item.value
         dico = {
             'type': `${item.id}`,
             'value': `${value}`,
@@ -123,7 +102,6 @@ function localcheck() {
     })
     console.log(list)
 }
-
 
 
 
@@ -157,6 +135,7 @@ document.getElementById('signup').addEventListener('click', () => {
             body: JSON.stringify({
                 'pseudo': document.getElementById('pseudo').value,
                 'password': document.getElementById('password').value,
+                'avatar': document.getElementById('avatar').value
             })
     })
     .then(response => response.json())
@@ -164,16 +143,27 @@ document.getElementById('signup').addEventListener('click', () => {
         if (data.error) {
             alert('Some informations are missing not unique or incorrect')
         } else {
-            document.querySelector('.container-log').style.display = 'none'
+            console.log(data)
+            document.getElementById('signup-popup').style.display = 'none'
         }
     })
 })
 
-document.querySelector('.sign').addEventListener('click', () => {
-    document.querySelector('.container-log').style.display = 'flex'
+let log = document.querySelectorAll('.sign')
+log.forEach(item => {
+    item.addEventListener('click', () => {
+        document.getElementById('signup-popup').style.display = 'none'
+        document.getElementById('signin-popup').style.display = 'none'
+        if (item.id === 'signup-button') {
+            document.getElementById('signup-popup').style.display = 'flex'
+        } else {
+            document.getElementById('signin-popup').style.display = 'flex'
+        }
+    })
 })
 
 document.getElementById('signin').addEventListener('click', () => {
+    console.log('signin')
     fetch('/log/login',
     {
         method: 'POST',
@@ -182,7 +172,7 @@ document.getElementById('signin').addEventListener('click', () => {
             },
             body: JSON.stringify({
                 'pseudo': document.getElementById('pseudo-s').value,
-                'password': document.getElementById('password-s').value,
+                'password': document.getElementById('password-s').value
             })
     })
     .then(response => response.json())
@@ -190,22 +180,85 @@ document.getElementById('signin').addEventListener('click', () => {
         if (data.error) {
             alert('Some informations are missing not unique or incorrect')
         } else {
-            document.querySelector('.container-log').style.display = 'none'
+            document.getElementById('signin-popup').style.display = 'none'
+            document.querySelector('.buttons-log').style.display = 'none'
+            document.querySelector('.user-infos').style.display = 'flex'
+            checkLogin()
         }
     })
 })
 
-function getInfos() {
+function checkLogin() {
     fetch('/getinfos')
     .then(response => response.json())
     .then(data => {
         if (data.error) {
-            alert(error)
+            console.log(data.error)
         } else {
-            document.querySelector('.buttons-log').style.display = 'none'
-            document.querySelector('.user-img').src = data.avatar
-            document.getElementById('user-name').innerHTML = data.pseudo
+            if (data.logged === false) {
+                console.log('not logged')
+            } else {
+                document.querySelector('.buttons-log').style.display = 'none'
+                document.querySelector('.user-infos').style.display = 'flex'
+                document.getElementById('user-name').innerHTML = `${data.pseudo}`
+                document.querySelector('.user-img').src = `${data.avatar}`
+            }
         }
     })
 }
-getInfos()
+checkLogin()
+
+const container = document.querySelector('.art-content');
+
+// Add the draggable attribute and the dragstart, dragenter, dragover, and dragleave event listeners to the to-publish elements
+container.addEventListener('mousedown', e => {
+  if (e.target.matches('.to-publish')) {
+    const elem = e.target;
+    elem.setAttribute('draggable', true);
+    elem.addEventListener('dragstart', e => {
+      // Set the data that will be transferred during the drag
+      e.dataTransfer.setData('text/plain', null);
+
+      // Add the 'dragging' class to the element being dragged
+      // This can be used to apply styles to the element while it is being dragged
+      elem.classList.add('dragging');
+    });
+    elem.addEventListener('dragenter', e => {
+      // Prevent the default behavior
+      e.preventDefault();
+
+      // Add the 'over' class to the container
+      // This can be used to apply styles to the container while an element is being dragged over it
+      container.classList.add('over');
+    });
+    elem.addEventListener('dragover', e => {
+      // Prevent the default behavior
+      e.preventDefault();
+    });
+    elem.addEventListener('dragleave', e => {
+      // Remove the 'over' class from the container
+      container.classList.remove('over');
+    });
+  }
+});
+
+// Add the drop event listener to the container
+container.addEventListener('drop', e => {
+  // Prevent the default behavior
+  e.preventDefault();
+
+  // Get the element being dragged
+  const elem = document.querySelector('.dragging');
+
+  // Get the target element (the element under the dragged element)
+  const target = e.target;
+
+  // Exchange the positions of the element being dragged and the target element
+  container.insertBefore(elem, target);
+  container.insertBefore(target, elem);
+
+  // Remove the 'dragging' and 'over' classes
+  elem.classList.remove('dragging');
+  container.classList.remove('over');
+});
+
