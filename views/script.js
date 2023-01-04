@@ -248,42 +248,42 @@ items.forEach(function(item) {
         switch (item.id) {
             case 'paragraph':
                 paragraph = document.createElement('li')
-                paragraph.innerHTML = '<textarea id="paragraph" class="to-publish paragraph"></textarea>'
+                paragraph.innerHTML = '<textarea id="paragraph" maxlength="2000" placeholder="Write a paragraph up to 2000 characters" class="to-publish paragraph"></textarea>'
                 paragraph.setAttribute('draggable', 'true')
                 paragraph.setAttribute('class', 'test')
                 artcontent.appendChild(paragraph)
                 break;
             case 'h1':
                 h1 = document.createElement('li')
-                h1.innerHTML = '<textarea id="h1" class="to-publish h1"></textarea>'
+                h1.innerHTML = '<textarea id="h1" maxlength="120" placeholder="Write a big title up to 120 characters" class="to-publish h1"></textarea>'
                 h1.setAttribute('draggable', 'true')
                 h1.setAttribute('class', 'test')
                 artcontent.appendChild(h1)
                 break;
             case 'h2':
                 h2 = document.createElement('li')
-                h2.innerHTML = '<textarea id="h2" class="to-publish h2"></textarea>'
+                h2.innerHTML = '<textarea id="h2"  maxlength="120" placeholder="Write a medium title up to 120 characters" class="to-publish h2"></textarea>'
                 h2.setAttribute('draggable', 'true')
                 h2.setAttribute('class', 'test')
                 artcontent.appendChild(h2)
                 break;
             case 'h3':
                 h3 = document.createElement('li')
-                h3.innerHTML = '<textarea id="h3" class="to-publish h3"></textarea>'
+                h3.innerHTML = '<textarea id="h3" maxlength="120" placeholder="Write a little title up to 120 characters" class="to-publish h3"></textarea>'
                 h3.setAttribute('draggable', 'true')
                 h3.setAttribute('class', 'test')
                 artcontent.appendChild(h3)
                 break;
             case 'quote':
                 quote = document.createElement('li')
-                quote.innerHTML = '<textarea id="quote" class="to-publish quote"></textarea>'
+                quote.innerHTML = '<textarea id="quote" maxlength="250" placeholder="Write a quote up to 250 characters" class="to-publish quote"></textarea>'
                 quote.setAttribute('draggable', 'true')
                 quote.setAttribute('class', 'test')
                 artcontent.appendChild(quote)
                 break;
             case 'image':
                 image = document.createElement('li')
-                image.innerHTML = '<div class="col-img"><img class="img-td" src="./assets/noimage.png"><div class="row-upload"><input id="image" placeholder="Image url" class="to-publish quote"><button style="margin-right: 0; border-radius: 0; width: 50%;" class="edit-publish">Upload</button></div></div>'
+                image.innerHTML = '<div class="col-img"><img class="img-td" src="./assets/noimage.png"><div class="row-upload"><input maxlength="500" placeholder="Image Url" id="image" placeholder="Image url" class="to-publish image"><button style="margin-right: 0; border-radius: 0; width: 50%;" class="edit-publish">Upload</button></div></div>'
                 image.setAttribute('draggable', 'true')
                 image.classList.add('img-size')
                 image.classList.add('test')
@@ -291,10 +291,18 @@ items.forEach(function(item) {
                 break;
             case 'callout':
                 callout = document.createElement('li')
-                callout.innerHTML = '<div class="loudspeaker"><img class="loudspeaker" src="./assets/loudspeaker.svg"></div><textarea id="callout" class="to-publish callout"></textarea>'
+                callout.innerHTML = '<div class="loudspeaker"><img class="loudspeaker" src="./assets/loudspeaker.svg"></div><textarea  maxlength="500" placeholder="Write a callout up to 500 characters" id="callout" class="to-publish callout"></textarea>'
                 callout.setAttribute('draggable', 'true')
                 callout.setAttribute('class', 'test')
                 artcontent.appendChild(callout)
+                break;
+            case 'youtube':
+                youtube = document.createElement('li')
+                youtube.innerHTML = '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/37gEog2VEkg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
+                youtube.setAttribute('draggable', 'true')
+                youtube.setAttribute('class', 'test')
+                youtube.classList.add('video-size')
+                artcontent.appendChild(youtube)
                 break;
         }
         enableDragSort('art-content')
