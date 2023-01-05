@@ -1,3 +1,7 @@
+array = ['Stay informed, stay quick', 'Fast facts for a fast world', 'Get the news you need, when you need it, with Quick-News', 'Stay informed and in-the-know with Quick-News: the go-to source for fast, reliable news']
+document.querySelector('.intro-text').innerHTML = (array[Math.floor(Math.random() * array.length)]);
+document.querySelector('.introduction').classList.add('loadingend')
+
 document.querySelectorAll('.button').forEach(item => {
     item.addEventListener('click', event => {
         document.querySelectorAll('.button').forEach(item => {

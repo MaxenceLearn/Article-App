@@ -43,6 +43,80 @@ header {
     height: 100vh;
 }
 
+section.introduction {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 100;
+}
+
+img.intro-img {
+    width: 100px;
+}
+
+h3.intro-text {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 400;
+    animation: appear 2s;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: translateY(160px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+div.progress-bar {
+    width: 400px;
+    height: 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 5px;
+    animation: appear 2s;
+    margin-top: 20px;
+}
+
+div.progress {
+    width: 15px;
+    background: #000000;
+    border-radius: 5px;
+    animation: progress 2s;
+}
+
+div.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.loadingend {
+    animation: diseappear 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes diseappear {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        scale: 1.5;
+    }
+}
+
 img.logo {
     width: 50px;
     margin-top: 20px;
@@ -439,7 +513,7 @@ input.search {
 }
 img.home-img {
     width: 65%;
-    height: 100%;
+    height: 400px;
     object-fit: cover;
     border-radius: 0px 5px 5px 0px;
 }
@@ -448,7 +522,7 @@ div.home-summup {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
+    min-height: 400px;
     padding: 20px;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -489,7 +563,6 @@ h1.summup-title {
 
 div.home-otd {
     width: 100%;
-    height: 400px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1127,14 +1200,15 @@ div.user-infos > h1 {
     }
     div.home-otd {
         flex-direction: column;
-        height: 100%;
     }
     div.home-summup {
         width: 100%;
+        height: 300px;
         border-radius: 5px 5px 0px 0px;
     }
     img.home-img {
         width: 100%;
+        height: 200px;
         border-radius: 0px 0px 5px 5px;
     }
     div.home-art-main {

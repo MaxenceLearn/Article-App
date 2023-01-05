@@ -17,6 +17,14 @@
        <img onclick="getEdit()" src="./assets/edit.png" alt="Logo" class="button" id="edit">
        <div class="selector"></div>
     </header>
+    <!-- -------------------------------------------- -->
+    <section class="introduction">
+        <img src="./assets/qn.svg" alt="Logo" class="intro-img">
+        <div class="card">
+            <h3 class="intro-text"></h3>
+        </div>
+    </section>
+
 
     <!-- -------------------------------------------- -->
         <div id="signup-popup" class="log">
@@ -270,31 +278,6 @@
 <script src="script.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io();
-  socket.on('song', (data) => {
-    console.log(data);
-    var audio = new Audio(`./assets/${data}.m4a`);
-    audio.play();
-  });
-
-  socket.on('message', (data) => {
-    document.getElementById('notif').innerHTML = data;
-    document.getElementById('notif').classList.add('activenotif');
-    setTimeout(() => {
-      document.getElementById('notif').classList.remove('activenotif');
-    }, 5000);
-  });
-
-  socket.on('spin' , (data) => {
-    document.querySelector('.body').classList.add('spin');
-    setTimeout(() => {
-      document.querySelector('.body').classList.remove('spin');
-    }, 5000);
-  });
-
-socket.on('ad', (data) => {
-    console.log(data);
-  document.querySelector('.ad').style.backgroundImage = `url(${data})`;
-});
+  let socket = io();
 </script>
 </html>
