@@ -1,6 +1,5 @@
 array = ['Stay informed, stay quick', 'Fast facts for a fast world', 'Get the news you need, when you need it, with Quick-News', 'Stay informed and in-the-know with Quick-News: the go-to source for fast, reliable news']
 document.querySelector('.intro-text').innerHTML = (array[Math.floor(Math.random() * array.length)]);
-document.querySelector('.introduction').classList.add('loadingend')
 
 document.querySelectorAll('.button').forEach(item => {
     item.addEventListener('click', event => {
@@ -67,10 +66,6 @@ function toggleMenu() {
     document.querySelector('.edit-elements').classList.toggle('close')
 }
 
-document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
-document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
-document.getElementById(`home`).style.filter = 'invert(100%)'
-getHome()
 
 
 
@@ -203,7 +198,7 @@ function checkLogin() {
             }
         })
 }
-checkLogin()
+
 
 
 function enableDragSort(listClass) {
@@ -313,3 +308,19 @@ items.forEach(function(item) {
         toggleMenu()
     });
 });
+
+function init() {
+    element = document.querySelector('.infos-prog')
+    getHome()
+    document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
+    document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
+    document.getElementById(`home`).style.filter = 'invert(100%)'
+    checkLogin()
+    element.innerHTML = 'Page is loading...'
+}
+
+init()
+
+window.addEventListener('load', function () {
+    document.querySelector('.introduction').classList.add('loadingend')
+})

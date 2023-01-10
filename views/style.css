@@ -60,22 +60,65 @@ img.intro-img {
 }
 
 h3.intro-text {
+    width: 90%;
     text-align: center;
     font-size: 1.2rem;
-    font-weight: 400;
+    font-weight: 300;
     animation: appear 2s;
+    margin-bottom: 16px;
 }
 
 @keyframes appear {
     0% {
         opacity: 0;
-        transform: translateY(160px);
     }
     100% {
         opacity: 1;
-        transform: translateY(0);
     }
 }
+
+div.no-article {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+h4.infos-prog {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-weight: 300;
+}
+div.no-article > img {
+    width: 20px;
+}
+
+h3.infos-na {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-left: 8px;
+}
+
+.loadingend {
+    animation: diseappear 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes diseappear {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
 
 div.progress-bar {
     width: 400px;
@@ -98,22 +141,45 @@ div.card {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 
+div.loading-bar {
+    width: 300px;
+    height: 8px;
+    border: 1px solid #eeeeee;
+    border-radius: 2px;
+}
 
-.loadingend {
-    animation: diseappear 2s;
-    animation-fill-mode: forwards;
+div.loader {
+    width: 50px;
+    height: 8px;
+    background: #000000;
+    animation: loading 0.75s infinite ease;
+}
+
+
+@keyframes loading {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(250px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 @keyframes diseappear {
     0% {
         opacity: 1;
+        transform: translateY(0);
     }
     100% {
         opacity: 0;
-        scale: 1.5;
+        transform: translateY(-100%);
     }
 }
 
