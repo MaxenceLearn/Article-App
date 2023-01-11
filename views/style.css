@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.cdnfonts.com/css/georgia');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
 * {
     margin: 0;
@@ -86,6 +87,15 @@ div.no-article {
     justify-content: center;
 }
 
+#centered {
+    display: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 
 h4.infos-prog {
     position: absolute;
@@ -182,6 +192,37 @@ div.loader {
         transform: translateY(-100%);
     }
 }
+.button__text {
+    color: #ffffff;
+    transition: all 0.2s;
+  }
+  
+  .button--loading .button__text {
+    display: none;
+  }
+  
+  .button--loading::after {
+    position: absolute;
+    content: "";
+    width: 16px;
+    height: 16px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+  
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+  
+    to {
+      transform: rotate(1turn);
+    }
+  }
+  
 
 img.logo {
     width: 50px;
@@ -319,9 +360,73 @@ button.edit-new {
 }
 
 h1.art-title {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+div.paragraph > p {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: 'Poppins', sans-serif;
+}	
+
+div.h1 > h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px;
+}
+
+div.h2 > h2 {
     font-size: 2.5rem;
     font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px;
+}
+
+div.h3 > h3 {
+    font-size: 2rem;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 20px;
+}
+
+div.quote {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+div.quote > blockquote {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+}
+
+div.callout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #F1F1EF;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 20px;
+}
+
+div.image > img {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+
+
+.call-out-text {
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-family: 'Poppins', sans-serif;
 }
 
 img.icon-element {
@@ -449,7 +554,6 @@ div.topics {
     flex-wrap: wrap;
     width: 92%;
     margin-top: 6px;
-    margin-bottom: 10px;
 }
 
 div.topic {
@@ -527,13 +631,17 @@ h1.home-art-title {
 
 img.home-art-img {
     border-radius: 5px;
-    width: 100%;
+    width: 370px;
     height: 200px;
     object-fit: cover;
     box-shadow: 1px 1px 10px 0 rgb(220, 220, 220);
 }
 
 #current{
+    background-color: #f1f1f1;
+    border: 1px solid #4c4c4c;
+}
+#selected{
     background-color: #f1f1f1;
     border: 1px solid #4c4c4c;
 }
@@ -678,6 +786,7 @@ input.edit-title-input {
     font-weight: 300;
     font-family: Poppins, sans-serif;
     outline: none;
+    margin-bottom: 10px;
 }
 
 img.button-icon {
@@ -730,9 +839,8 @@ button.edit-publish {
 }
 
 
+
 textarea.edit-textarea {
-    margin-top: 10px;
-    margin-bottom: 10px;
     width: 100%;
     min-height: 100px;
     border-radius: 5px;
@@ -795,7 +903,6 @@ div.art-content {
 textarea.paragraph {
     width: 100%;
     height: 200px;
-    border-radius: 5px;
     border: 1px solid rgb(239, 239, 239);
     padding: 20px;
     font-size: 1.2rem;
@@ -812,7 +919,6 @@ textarea.paragraph:focus {
 textarea.h1 {
     width: 100%;
     height: 90px;
-    border-radius: 5px;
     border: 1px solid rgb(239, 239, 239);
     padding: 20px;
     font-size: 2.2rem;
@@ -829,7 +935,6 @@ textarea.h1:focus {
 textarea.h2 {
     width: 100%;
     height: 80.5px;
-    border-radius: 5px;
     border: 1px solid rgb(239, 239, 239);
     padding: 20px;
     font-size: 1.8rem;
@@ -846,7 +951,6 @@ textarea.h2:focus {
 textarea.h3 {
     width: 100%;
     height: 73px;
-    border-radius: 5px;
     border: 1px solid rgb(239, 239, 239);
     padding: 20px;
     font-size: 1.5rem;
@@ -896,6 +1000,13 @@ li.img-size {
     border-left: 5px solid rgb(39, 39, 39);
 }
 
+img.art-image {
+    width: 100%;
+    max-width: 850px;
+    margin-top: 10px;
+    max-height: 900px;
+}
+
 textarea.callout {
     width: 100%;
     height: 100px;
@@ -923,17 +1034,16 @@ img.loudspeaker {
     background: #F1F1EF;
 }
 
-ul.test {
+ul.contain-main {
     margin: 0;
     padding: 0;
 }
  
-li.test {
+li.contain {
     display: flex;
     flex-direction: row;
     padding-left: 12px;
     margin: 20px 0;
-    border-radius: 7px;
     line-height: 40px;
     background: linear-gradient(290.71deg, #000000 0.6%, rgba(0, 0, 0, 0.73) 100%);
     z-index: 10;
@@ -1091,6 +1201,11 @@ div.premium {
 }
 
 button.sign {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 65%;
     height: 50px;
     margin: 5px;
@@ -1140,6 +1255,10 @@ div.log > input {
 }
 
 div.log > button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 375px;
     height: 50px;
     margin: 5px;

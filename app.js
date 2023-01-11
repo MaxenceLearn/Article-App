@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const remote = require('./routes/remote');
 const log = require('./routes/log');
 const getinfos = require('./routes/getInfos');
+const article = require('./routes/article');
 // Definition des outils
 app.use(cookieParser());
 app.set('view engine', 'ejs')
@@ -28,5 +29,6 @@ app.get('/', (req, res) => {
 app.use('/remote', remote);
 app.use('/log', log);
 app.use('/getinfos', getinfos);
+app.use('/article', article);
 
 module.exports = app;

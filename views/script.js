@@ -70,21 +70,15 @@ function toggleMenu() {
 
 
 
-function RTS() {
+document.getElementById('RTS').addEventListener('click', event => {
     list = []
     list.push({
-        'type': 'title',
-        'value': document.querySelector('.edit-title-input').value
+        'title': document.querySelector('.edit-title-input').value,
+        'description': document.querySelector('.edit-textarea').value,
+        'topic': document.getElementById('selected').innerText.toLowerCase(),
+        'preview': document.getElementById('preview').value
     })
-    list.push({
-        'type': 'description',
-        'value': document.querySelector('.edit-textarea').value
-    })
-    list.push({
-        'type': 'topic',
-        'value': document.getElementById('selected').innerText.toLowerCase()
-    })
-
+    content = []
     document.querySelectorAll('.to-publish').forEach(item => {
         value = item.value
         dico = {
@@ -92,10 +86,28 @@ function RTS() {
             'value': `${value}`,
         }
 
-        list.push(dico)
+        content.push(dico)
     })
+    list.push(content)
     console.log(list)
-}
+    fetch('/article', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'article': list
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error || 'An error occured')
+                document.getElementById('RTS').classList.remove('button--loading')
+            }
+        })
+})
+
 
 
 
@@ -171,6 +183,7 @@ document.getElementById('signin').addEventListener('click', () => {
         .then(data => {
             if (data.error) {
                 alert('Some informations are missing not unique or incorrect')
+                document.getElementById('signin').classList.remove('button--loading')
             } else {
                 document.getElementById('signin-popup').style.display = 'none'
                 document.querySelector('.buttons-log').style.display = 'none'
@@ -193,7 +206,6 @@ function checkLogin() {
                     document.querySelector('.buttons-log').style.display = 'none'
                     document.querySelector('.user-infos').style.display = 'flex'
                     document.getElementById('user-name').innerHTML = `${data.pseudo}`
-                    document.querySelector('.user-img').src = `${data.avatar}`
                 }
             }
         })
@@ -249,35 +261,35 @@ items.forEach(function(item) {
                 paragraph = document.createElement('li')
                 paragraph.innerHTML = '<textarea id="paragraph" maxlength="2000" placeholder="Write a paragraph up to 2000 characters" class="to-publish paragraph"></textarea>'
                 paragraph.setAttribute('draggable', 'true')
-                paragraph.setAttribute('class', 'test')
+                paragraph.setAttribute('class', 'contain')
                 artcontent.appendChild(paragraph)
                 break;
             case 'h1':
                 h1 = document.createElement('li')
                 h1.innerHTML = '<textarea id="h1" maxlength="120" placeholder="Write a big title up to 120 characters" class="to-publish h1"></textarea>'
                 h1.setAttribute('draggable', 'true')
-                h1.setAttribute('class', 'test')
+                h1.setAttribute('class', 'contain')
                 artcontent.appendChild(h1)
                 break;
             case 'h2':
                 h2 = document.createElement('li')
                 h2.innerHTML = '<textarea id="h2"  maxlength="120" placeholder="Write a medium title up to 120 characters" class="to-publish h2"></textarea>'
                 h2.setAttribute('draggable', 'true')
-                h2.setAttribute('class', 'test')
+                h2.setAttribute('class', 'contain')
                 artcontent.appendChild(h2)
                 break;
             case 'h3':
                 h3 = document.createElement('li')
                 h3.innerHTML = '<textarea id="h3" maxlength="120" placeholder="Write a little title up to 120 characters" class="to-publish h3"></textarea>'
                 h3.setAttribute('draggable', 'true')
-                h3.setAttribute('class', 'test')
+                h3.setAttribute('class', 'contain')
                 artcontent.appendChild(h3)
                 break;
             case 'quote':
                 quote = document.createElement('li')
                 quote.innerHTML = '<textarea id="quote" maxlength="250" placeholder="Write a quote up to 250 characters" class="to-publish quote"></textarea>'
                 quote.setAttribute('draggable', 'true')
-                quote.setAttribute('class', 'test')
+                quote.setAttribute('class', 'contain')
                 artcontent.appendChild(quote)
                 break;
             case 'image':
@@ -285,21 +297,21 @@ items.forEach(function(item) {
                 image.innerHTML = '<div class="col-img"><img class="img-td" src="./assets/noimage.png"><div class="row-upload"><input maxlength="500" placeholder="Image Url" id="image" placeholder="Image url" class="to-publish image"><button style="margin-right: 0; border-radius: 0; width: 50%;" class="edit-publish">Upload</button></div></div>'
                 image.setAttribute('draggable', 'true')
                 image.classList.add('img-size')
-                image.classList.add('test')
+                image.classList.add('contain')
                 artcontent.appendChild(image)
                 break;
             case 'callout':
                 callout = document.createElement('li')
                 callout.innerHTML = '<div class="loudspeaker"><img class="loudspeaker" src="./assets/loudspeaker.svg"></div><textarea  maxlength="500" placeholder="Write a callout up to 500 characters" id="callout" class="to-publish callout"></textarea>'
                 callout.setAttribute('draggable', 'true')
-                callout.setAttribute('class', 'test')
+                callout.setAttribute('class', 'contain')
                 artcontent.appendChild(callout)
                 break;
             case 'youtube':
                 youtube = document.createElement('li')
                 youtube.innerHTML = '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/37gEog2VEkg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
                 youtube.setAttribute('draggable', 'true')
-                youtube.setAttribute('class', 'test')
+                youtube.setAttribute('class', 'contain')
                 youtube.classList.add('video-size')
                 artcontent.appendChild(youtube)
                 break;
@@ -309,6 +321,113 @@ items.forEach(function(item) {
     });
 });
 
+function getArticle(id) {
+    getReading()
+    document.querySelector('.art-main').innerHTML = ''
+    loader = document.createElement('div')
+    loader.setAttribute('id', 'centered')
+    loader.innerHTML = '<div class="loading-bar"><div class="loader"></div></div>'
+    document.querySelector('.art-main').appendChild(loader)
+    fetch('/article/last', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({
+            'id': `${id}`
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector('.art-main').innerHTML = ''
+        let article_main = document.querySelector('.art-main')
+        let article_title = document.createElement('h1')
+        let article_image = document.createElement('img')
+        article_title.classList.add('art-title')
+        article_title.innerHTML = `${data[0].title}`
+        article_image.classList.add('art-image')
+        article_image.setAttribute('src', `${data[0].preview}`)
+        article_main.appendChild(article_title)
+        article_main.appendChild(article_image)
+        data[0].content.forEach(function(item) {
+            let article_content = document.createElement('div')
+            article_content.classList.add(`${item.type}`)
+            article_main.appendChild(article_content)
+            switch (item.type) {
+                case 'paragraph':
+                    let paragraph = document.createElement('p')
+                    paragraph.innerHTML = `${item.value}`
+                    article_content.appendChild(paragraph)
+                    break;
+                case 'h1':
+                    let h1 = document.createElement('h1')
+                    h1.innerHTML = `${item.value}`
+                    article_content.appendChild(h1)
+                    break;
+                case 'h2':
+                    let h2 = document.createElement('h2')
+                    h2.innerHTML = `${item.value}`
+                    article_content.appendChild(h2)
+                    break;
+                case 'h3':
+                    let h3 = document.createElement('h3')
+                    h3.innerHTML = `${item.value}`
+                    article_content.appendChild(h3)
+                    break;
+                case 'quote':
+                    let quote = document.createElement('blockquote')
+                    quote.innerHTML = `"${item.value}"`
+                    article_content.appendChild(quote)
+                    break;
+                case 'image':
+                    let image = document.createElement('img')
+                    image.setAttribute('src', `${item.value}`)
+                    article_content.appendChild(image)
+                    break;
+                case 'callout':
+                    article_content.innerHTML = `<div style="min-width: 78px" class="loudspeaker"><img style="width: 35px" class="loudspeaker" src="./assets/loudspeaker.svg"></div><p class="call-out-text">${item.value}</p>`
+                    article_main.appendChild(article_content)
+                    break;       
+            }
+        })
+    })
+}
+
+function getHomeArticles(topic) {
+    fetch('/article/last', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'limit': 3,
+            'topic': `${topic}`
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        document.querySelector('.articles').innerHTML = ''
+        data.forEach(function(article) {
+            let articleDiv = document.createElement('div')
+            articleDiv.classList.add('home-art-main', 'art-load')
+            articleDiv.setAttribute('onclick', `getArticle('${article._id}')`)
+            articleDiv.innerHTML = `
+            <img src="${article.preview}"Logo" class="home-art-img">
+            <h1 class="home-art-title">${article.title}</h1>
+            <p class="home-art-desc">${article.description}</p>`
+            document.querySelector('.articles').appendChild(articleDiv)
+        })
+    })
+
+}
+
+
+
+document.querySelector('.topics').addEventListener('click', function(e) {
+   getHomeArticles(e.target.innerHTML.toLowerCase())
+})
+
 function init() {
     element = document.querySelector('.infos-prog')
     getHome()
@@ -316,10 +435,15 @@ function init() {
     document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
     document.getElementById(`home`).style.filter = 'invert(100%)'
     checkLogin()
+    getHomeArticles()
     element.innerHTML = 'Page is loading...'
 }
 
+
+
 init()
+
+
 
 window.addEventListener('load', function () {
     document.querySelector('.introduction').classList.add('loadingend')

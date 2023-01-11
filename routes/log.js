@@ -76,4 +76,10 @@ router.get('/logout', (req, res) => {
     });
 });
 
+router.get('/logout', (req, res) => {
+    res.clearCookie('token').redirect('/').status(200).json({
+        message: 'Déconnexion réussie !'
+    });
+});
+
 module.exports = router;

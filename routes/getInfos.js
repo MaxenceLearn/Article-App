@@ -20,7 +20,8 @@ router.get('/', (req, res) => {
             res.json({
                 pseudo: user.pseudo,
                 id: user._id,
-                avatar: user.avatar
+                avatar: user.avatar,
+                role: user.role
             });
         })
         .catch(error => res.json({

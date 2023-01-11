@@ -40,7 +40,9 @@
         <div id="signin-popup" class="log">
             <input type="text" id="pseudo-s" placeholder="Username">
             <input type="password" id="password-s" placeholder="Password">
-            <button id="signin">Sign In</button>
+            <button id="signin" type="button" onclick="this.classList.add('button--loading')">
+                <span class="button__text">Sign In</span>
+            </button>
         </div> 
     <!-- -------------------------------------------- -->
 
@@ -68,31 +70,16 @@
                 <button onclick="getFlow()" class="home-more">See More</button>
             </div>
             <div class="topics">
-                <div id="current" class="topic">Tech</div>
                 <div class="topic">Health</div>
-                <div class="topic">Productivity</div>
+                <div class="topic">Economy</div>
+                <div class="topic">Tech</div>
                 <div class="topic">Design</div>
-                <div class="topic">Art</div>
-                <div class="topic">Business</div>
-                <div class="topic">Marketing</div>
-                <div class="topic">Education</div>
+                <div class="topic">Food</div>
+                <div class="topic">Politics</div>
+                <div class="topic">Event</div>
+                <div class="topic">Travel</div>
             </div>
             <div class="articles">
-                <div onclick="getReading()" class="home-art-main">
-                    <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                    <h1 class="home-art-title">Fake News & Lateral Reading</h1>
-                    <p class="home-art-desc">It's important to be able to distinguish between credible sources and fake news.</p>
-                </div>
-                <div class="home-art-main">
-                    <img src="./assets/abstract2.jpg"Logo" class="home-art-img">
-                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-                </div>
-                <div id="third" class="home-art-main">
-                    <img src="./assets/abstract2.jpg"Logo" class="home-art-img">
-                    <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                    <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-                </div>
             </div>
         </section>
         <section class="infos">
@@ -120,14 +107,19 @@
         <div class="home-head">
             <input style="width: 80%;" type="text" class="search" placeholder="Search">
         </div>
-        <div class="topics-flow">
-            <div class="topic">Tech</div>
-            <div class="topic">Health</div>
-            <div class="topic">Productivity</div>
-            <div class="topic">Design</div>
+            <div class="topics-flow">
+                <div id="current" class="topic">Health</div>
+                <div class="topic">Economy</div>
+                <div class="topic">Tech</div>
+                <div class="topic">Design</div>
+                <div class="topic">Food</div>
+                <div class="topic">Politics</div>
+                <div class="topic">Event</div>
+                <div class="topic">Travel</div>
+            </div>
         </div>
         <div class="articles-flow">
-            <div class="flow-art-main">
+            <div class="flow-art-main art-load">
                 <img src="./assets/abstract.jpg"Logo" class="home-art-img">
                 <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
                 <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
@@ -193,6 +185,11 @@
                 <img src="./assets/no.svg"Logo" class="no-article-img">
                 <h3 class="infos-na">Please make sure to select an article</h3>
             </div>
+            <div id="centered">
+                <div class="loading-bar">
+                    <div class="loader"></div>
+                </div>
+            </div>
         </section>
         <section class="more-art">
             <div class="more-main">
@@ -208,9 +205,9 @@
             <div class="divider"></div>
             <h1 style="font-weight: 600;" class="more-title">More Interesting Topic</h1>
             <div class="topics">
-                <div class="topic">Tech</div>
                 <div class="topic">Health</div>
-                <div class="topic">Productivity</div>
+                <div class="topic">Economy</div>
+                <div class="topic">Tech</div>
                 <div class="topic">Design</div>
             </div>
             <div class="ad"></div>
@@ -223,18 +220,22 @@
         <h1 data-max-length="10" class="edit-title">Article Editor V1</h1>
         <input maxlength="200" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="85" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
+        <input id="preview" maxlength="500" minlength="6" type="text" class="edit-title-input" placeholder="Thumbmail, url.png/jpg">
         <div class="topics">
-            <div id="selected" class="topic select">Tech</div>
-            <div class="topic select health">Health</div>
-            <div class="topic select productivity">Productivity</div>
-            <div class="topic select design">Design</div>
-            <div class="topic select art">Art</div>
-            <div class="topic select business">Business</div>
-            <div class="topic select marketing">Marketing</div>
-            <div class="topic select education">Education</div>
+            <div id="selected" class="topic current health">Health</div>
+            <div class="topic">Economy</div>
+            <div class="topic">Tech</div>
+            <div class="topic">Design</div>
+            <div class="topic">Food</div>
+            <div class="topic">Politics</div>
+            <div class="topic">Event</div>
+            <div class="topic">Travel</div>
         </div>
         <div class="buttons-collumn">
-                <button onclick="RTS()" class="edit-publish"><img class="button-icon" src="./assets/publish.png">Publish</button>
+                <button id="RTS" type="button" class="edit-publish" onclick="this.classList.add('button--loading')">
+                    <img class="button-icon button__text"src="./assets/publish.png">
+                    <span class="button__text">Publish</span>
+                </button>
                 <button class="edit-ai"><img class="button-icon" src="./assets/star.png">Ai Enhance</button>
             </div>
         <button onclick="toggleMenu()" class="edit-new">Add a new element</button>
@@ -272,7 +273,7 @@
                 <p class="element-infos">Youtube<br><span class="element-desc">Embed a youtube video</span></p>
             </li>
         </ul>
-        <ul class="art-content full test">
+        <ul class="art-content full contain-main">
         </ul>
     </section>
 </body>

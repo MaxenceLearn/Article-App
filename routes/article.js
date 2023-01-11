@@ -1,4 +1,45 @@
 const express = require('express');
 const router = express.Router();
+const articleCheck = require('../middlewares/articleCheck');
+const Article = require('../models/article');
+const jwt = require('jsonwebtoken');
+router.post('/', articleCheck, (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.json({ logged: false });
+    const decodedToken = jwt.verify(token, 'TOKEN');
+    const userId = decodedToken.userId;
+    const article = new Article({
+        title: req.body.article[0].title,
+        description: req.body.article[0].description,
+        topic: req.body.article[0].topic,
+        content: req.body.article[1],
+        preview: req.body.article[0].preview,
+        author: userId
+    });
+    article.save()
+        .then(() => res.status(201).json({
+            message: 'Article créé !'
+        }))
+        .catch(error => res.status(500).json({
+            error: error
+        }));
+});
 
-router.post('/')
+router.post('/last', (req, res) => {
+    console.log(req.body);
+    let query = {};
+    if(req.body.topic && req.body.topic != 'undefined') {
+        query.topic = req.body.topic;
+    } else if (req.body.id && req.body.id != 'undefined') {
+        query._id = req.body.id;
+    }
+    Article.find(query)
+        .sort({ _id: -1 })
+        .limit(req.body.limit)
+        .then(article => res.status(200).json(article))
+        .catch(error => res.status(400).json({
+            error: error
+        }));
+});
+
+module.exports = router;
