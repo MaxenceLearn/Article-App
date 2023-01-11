@@ -89,7 +89,6 @@ document.getElementById('RTS').addEventListener('click', event => {
         content.push(dico)
     })
     list.push(content)
-    console.log(list)
     fetch('/article', {
             method: 'POST',
             headers: {
@@ -114,9 +113,7 @@ document.getElementById('RTS').addEventListener('click', event => {
 function imageload() {
     const img = new Image();
     img.src = document.getElementById('toload').value;
-    console.log(img.src)
     if (img.complete) {
-        console.log('complete')
         document.querySelector('.to-publish').style.backgroundImage = `url('${document.getElementById('toload').value}')`
         document.getElementById('toload').style.border = '1px solid #e7e7e7'
     } else {
@@ -125,7 +122,6 @@ function imageload() {
             document.getElementById('toload').style.border = '1px solid #e7e7e7'
         };
         img.onerror = () => {
-            console.log('error')
             document.getElementById('toload').style.border = '1px solid red'
         };
     }
@@ -148,7 +144,6 @@ document.getElementById('signup').addEventListener('click', () => {
             if (data.error) {
                 alert('Some informations are missing not unique or incorrect')
             } else {
-                console.log(data)
                 document.getElementById('signup-popup').style.display = 'none'
             }
         })
@@ -168,7 +163,6 @@ log.forEach(item => {
 })
 
 document.getElementById('signin').addEventListener('click', () => {
-    console.log('signin')
     fetch('/log/login', {
             method: 'POST',
             headers: {
@@ -327,7 +321,7 @@ function getArticle(id) {
     loader = document.createElement('div')
     loader.setAttribute('id', 'centered')
     loader.innerHTML = '<div class="loading-bar"><div class="loader"></div></div>'
-    document.querySelector('.art-main').appendChild(loader)
+    let article_main = document.querySelector('.art-main')
     fetch('/article/last', {
         method: 'POST',
         headers: {
@@ -340,7 +334,6 @@ function getArticle(id) {
     .then(response => response.json())
     .then(data => {
         document.querySelector('.art-main').innerHTML = ''
-        let article_main = document.querySelector('.art-main')
         let article_title = document.createElement('h1')
         let article_image = document.createElement('img')
         article_title.classList.add('art-title')
@@ -390,6 +383,22 @@ function getArticle(id) {
                     break;       
             }
         })
+        fetch('/getinfos/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'id': data[0].author
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            let author = document.createElement('div')
+            author.classList.add('author')
+            author.innerHTML = `<img class="author-img" src="${data.avatar}"><p class="author-name">${data.pseudo} (${data.role})</p>`
+            article_main.appendChild(author)
+        })
     })
 }
 
@@ -406,7 +415,6 @@ function getHomeArticles(topic) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         document.querySelector('.articles').innerHTML = ''
         data.forEach(function(article) {
             let articleDiv = document.createElement('div')
