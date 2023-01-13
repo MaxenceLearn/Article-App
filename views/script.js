@@ -59,6 +59,19 @@ function getEdit() {
     document.querySelector('.edit').id = 'active'
 }
 
+function getAccount() {
+    document.getElementById('account').click()
+    document.querySelectorAll('.section').forEach(item => {
+        item.removeAttribute('id')
+    })
+    document.querySelector('.account').id = 'active'
+}
+
+
+function getAdmin() {
+   window.location.href = '/admin'
+}
+
 
 function toggleMenu() {
     document.querySelector('.art-content').classList.toggle('full')
@@ -89,6 +102,7 @@ document.getElementById('RTS').addEventListener('click', event => {
         content.push(dico)
     })
     list.push(content)
+    console.log(list)
     fetch('/article', {
             method: 'POST',
             headers: {
@@ -103,6 +117,8 @@ document.getElementById('RTS').addEventListener('click', event => {
             if (data.error) {
                 alert(data.error || 'An error occured')
                 document.getElementById('RTS').classList.remove('button--loading')
+            } else {
+                get
             }
         })
 })
@@ -200,6 +216,9 @@ function checkLogin() {
                     document.querySelector('.buttons-log').style.display = 'none'
                     document.querySelector('.user-infos').style.display = 'flex'
                     document.getElementById('user-name').innerHTML = `${data.pseudo}`
+                    if (data.role === 'admin') {
+                        document.getElementById('admin').style.display = 'flex'
+                    }
                 }
             }
         })
@@ -438,7 +457,7 @@ document.querySelector('.topics').addEventListener('click', function(e) {
 
 function init() {
     element = document.querySelector('.infos-prog')
-    getHome()
+    getAccount()
     document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
     document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
     document.getElementById(`home`).style.filter = 'invert(100%)'

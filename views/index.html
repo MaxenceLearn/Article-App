@@ -15,6 +15,8 @@
        <img onclick="getFlow()" src="./assets/flow.png" alt="Logo" class="button" id="flow">
        <img onclick="getReading()" src="./assets/settings.png" alt="Logo" class="button" id="read">
        <img onclick="getEdit()" src="./assets/edit.png" alt="Logo" class="button" id="edit">
+       <img onclick="getAccount()" src="./assets/account.svg" alt="Logo" class="button" id="account">
+       <img onclick="getAdmin()" src="./assets/admin.png" alt="Logo" class="button" id="admin">
        <div class="selector"></div>
     </header>
     <!-- -------------------------------------------- -->
@@ -275,6 +277,32 @@
         </ul>
         <ul class="art-content full contain-main">
         </ul>
+    </section>
+
+    <!-- -------------------------------------------- -->
+
+    <section class="section account">
+        <div class="containerAcc">
+            <div class="profile">
+                <div class="gradient"></div>
+                <div class="profile-img">
+                    <img src="./assets/default.png" class="profile-img">
+                </div>
+                <div class="infos-container">
+                    <h3 class="profile-username">Jarred Bena</h3>
+                    <h4 class="profil-username-infos">User @jarredbena</h4>
+                    <div class="profil-options">
+                        <button>Share profil<img src="./assets/share.svg"></button>
+                        <button>Edit profil<img src="./assets/profil-edit.svg"></button>
+                        <button>Switch to business<img src="./assets/business.svg"></button>
+                        <button id="delete">Delete profile<img src="./assets/delete.svg"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="stats">
+                <div id="stats" class="gradient"></div>
+            </div>
+        </div>
     </section>
 </body>
 <script src="script.js"></script>
