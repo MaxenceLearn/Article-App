@@ -28,7 +28,7 @@ document.querySelectorAll('.topic').forEach(item => {
 
 
 function getHome() {
-    document.getElementById('home').click()
+    document.getElementById('home').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -36,7 +36,7 @@ function getHome() {
 }
 
 function getFlow() {
-    document.getElementById('flow').click()
+    document.getElementById('flow').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -44,7 +44,7 @@ function getFlow() {
 }
 
 function getReading() {
-    document.getElementById('read').click()
+    document.getElementById('read').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -52,7 +52,7 @@ function getReading() {
 }
 
 function getEdit() {
-    document.getElementById('edit').click()
+    document.getElementById('edit').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -60,7 +60,7 @@ function getEdit() {
 }
 
 function getAccount() {
-    document.getElementById('account').click()
+    getMyArticle()
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -79,11 +79,82 @@ function toggleMenu() {
     document.querySelector('.edit-elements').classList.toggle('close')
 }
 
+function deleteUser() {
+    if (confirm('Are you sure you want to delete your account? This action is irreversible and will delete all you articles.'))
+    fetch('/log', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        localStorage.clear()
+        window.location.href = '/'
+    })
+}
 
 
+function getMyArticle() {
+    document.querySelector('.profile-articles').innerHTML = '<div id="center" class="loading-bar"><div class="loader"></div></div></div>'
+    fetch('/article/last', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'author': `${localStorage.getItem('id')}`
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.profile-articles').innerHTML = `<h2>My articles (${data.length}) </h2>`
+            data.forEach(item => {
+                document.querySelector('.profile-articles').innerHTML += `
+                <div id="${item._id}" class="articles-d">
+                    <img src="${item.preview}" class="thumbnail"></img>
+                    <div class="articles-infos">
+                    <div class="row-topic">
+                        <h3>${item.title}</h3>
+                        <div class="topic-profile">${item.topic}</div>
+                    </div>
+                        <h4>${item.description}</h4>
+                    </div>
+                    <div class="actions">
+                        <button onclick="getArticle('${item._id}')">Open</button>
+                        <button>Edit</button>
+                        <button id="delete" onclick="deleteArticle('${item._id}')">Delete</button>
+                    </div>
+                </div>
+                `
+            })
+        })        
+}
+
+
+
+function deleteArticle(id) {
+    if (confirm('Are you sure you want to delete this article?')) 
+    fetch('/article', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'id': `${id}`
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data)
+            getMyArticle()
+        }
+    )
+}
 
 
 document.getElementById('RTS').addEventListener('click', event => {
+    if(confirm('Are you sure you to publish this article ?'))
     list = []
     list.push({
         'title': document.querySelector('.edit-title-input').value,
@@ -118,7 +189,7 @@ document.getElementById('RTS').addEventListener('click', event => {
                 alert(data.error || 'An error occured')
                 document.getElementById('RTS').classList.remove('button--loading')
             } else {
-                get
+                getArticle(data._id)
             }
         })
 })
@@ -142,6 +213,15 @@ function imageload() {
         };
     }
 }
+
+document.querySelectorAll('.cancel').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.log').forEach(item => {
+            item.style.display = 'none'
+        })
+    })
+})
+
 
 document.getElementById('signup').addEventListener('click', () => {
     fetch('/log', {
@@ -213,9 +293,16 @@ function checkLogin() {
                 if (data.logged === false) {
                     console.log('not logged')
                 } else {
+                    document.getElementById('account').style.display = 'block'
                     document.querySelector('.buttons-log').style.display = 'none'
                     document.querySelector('.user-infos').style.display = 'flex'
                     document.getElementById('user-name').innerHTML = `${data.pseudo}`
+                    localStorage.setItem('user', data.pseudo)
+                    localStorage.setItem('avatar', data.avatar)
+                    localStorage.setItem('id', data.id)
+                    document.getElementById('profile-image').src = data.avatar
+                    document.querySelector('.profile-username').innerHTML = `${data.pseudo}`
+                    document.querySelector('.profil-username-infos').innerHTML = `${data.role} @${data.pseudo.toLowerCase()}`
                     if (data.role === 'admin') {
                         document.getElementById('admin').style.display = 'flex'
                     }
@@ -336,10 +423,7 @@ items.forEach(function(item) {
 
 function getArticle(id) {
     getReading()
-    document.querySelector('.art-main').innerHTML = ''
-    loader = document.createElement('div')
-    loader.setAttribute('id', 'centered')
-    loader.innerHTML = '<div class="loading-bar"><div class="loader"></div></div>'
+    document.querySelector('.art-main').innerHTML = '<div id="center" class="loading-bar"><div class="loader"></div></div></div>'
     let article_main = document.querySelector('.art-main')
     fetch('/article/last', {
         method: 'POST',
@@ -352,6 +436,7 @@ function getArticle(id) {
     })
     .then(response => response.json())
     .then(data => {
+        getReadingStuff(data[0].topic)
         document.querySelector('.art-main').innerHTML = ''
         let article_title = document.createElement('h1')
         let article_image = document.createElement('img')
@@ -449,6 +534,32 @@ function getHomeArticles(topic) {
 
 }
 
+function getReadingStuff(topic) {
+    fetch('/article/last', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'topic': `${topic}`,
+            'limit': 2
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector('.for-you').innerHTML = ''
+        data.forEach(function(article) {
+            let articleFy = document.createElement('div')
+            articleFy.classList.add('more-main')
+            articleFy.setAttribute('onclick', `getArticle('${article._id}')`)
+            articleFy.innerHTML = `
+                    <img src="${article.preview}" class="more-img">
+                    <h1 class="more-title">${article.title}</h1>
+                    <p class="more-desc">${article.description}</p>`
+            document.querySelector('.for-you').appendChild(articleFy)
+        })
+    })
+}
 
 
 document.querySelector('.topics').addEventListener('click', function(e) {
@@ -457,7 +568,7 @@ document.querySelector('.topics').addEventListener('click', function(e) {
 
 function init() {
     element = document.querySelector('.infos-prog')
-    getAccount()
+    getHome()
     document.querySelector('.selector').style.top = `${window.scrollY + document.getElementById(`home`).getBoundingClientRect().top- 10.5}px`
     document.querySelector('.selector').style.left = `${document.getElementById(`home`).getBoundingClientRect().left - 23.5}px`
     document.getElementById(`home`).style.filter = 'invert(100%)'
@@ -474,4 +585,9 @@ init()
 
 window.addEventListener('load', function () {
     document.querySelector('.introduction').classList.add('loadingend')
+    document.querySelector('.blur').classList.add('loadingend')
+    setTimeout(function() {
+        document.querySelector('.blur').style.display = 'none'
+        document.querySelector('.introduction').style.display = 'none'
+    }, 1500)
 })

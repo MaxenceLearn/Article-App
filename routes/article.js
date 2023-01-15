@@ -32,12 +32,48 @@ router.post('/last', (req, res) => {
         query.topic = req.body.topic;
     } else if (req.body.id && req.body.id != 'undefined') {
         query._id = req.body.id;
+    } else if (req.body.author && req.body.author != 'undefined') {
+        query.author = req.body.author;
     }
     Article.find(query)
         .sort({ _id: -1 })
         .limit(req.body.limit)
         .then(article => res.status(200).json(article))
         .catch(error => res.status(400).json({
+            error: error
+        }));
+});
+
+router.delete('/', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.json({ logged: false });
+    const decodedToken = jwt.verify(token, 'TOKEN');
+    const userId = decodedToken.userId;
+    Article.findOne({
+            _id: req.body.id
+        })
+        .then(article => {
+            if (!article) {
+                return res.status(401).json({
+                    error: 'Article non trouvé !'
+                });
+            }
+            if (article.author != userId) {
+                return res.status(401).json({
+                    error: 'Vous n\'êtes pas l\'auteur de cet article !'
+                });
+            }
+            Article.deleteOne({
+                    _id: req.body.id
+                })
+                .then(() => res.status(200).json({
+                    message: 'Article supprimé !'
+                }))
+                .catch(error => res.status(400).json({
+                    error: error
+                }));
+        })
+        .catch(error => res.status(500).json({
             error: error
         }));
 });

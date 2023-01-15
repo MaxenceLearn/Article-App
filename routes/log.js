@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const avatarCheck = require('../middlewares/avatarCheck');
-
+const Article = require('../models/article');
 router.post('/', avatarCheck, (req, res) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -80,6 +80,43 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token').redirect('/').status(200).json({
         message: 'Déconnexion réussie !'
     });
+});
+
+router.delete('/', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.json({ logged: false });
+    const decodedToken = jwt.verify(token, 'TOKEN');
+    const userId = decodedToken.userId;
+    User.findOne({
+            _id: userId
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(401).json({
+                    error: 'Utilisateur non trouvé !'
+                });
+            }
+            User.deleteOne({
+                    _id: userId
+                })
+                .then(() => 
+                    Article.deleteMany({
+                        author: userId
+                    })
+                    .then(() => res.status(200).json({
+                        message: 'Utilisateur supprimé !'
+                    }))
+                    .catch(error => res.status(500).json({
+                        error: error
+                    }))
+                )
+                .catch(error => res.status(500).json({
+                    error: error
+                }));
+        })
+        .catch(error => res.status(500).json({
+            error: error
+        }));
 });
 
 module.exports = router;
