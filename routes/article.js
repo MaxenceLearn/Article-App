@@ -78,4 +78,27 @@ router.delete('/', (req, res) => {
         }));
 });
 
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+router.post('/search', (req, res) => {
+    console.log(req.body);
+    if (req.body.search) {
+        const regex = new RegExp(escapeRegex(req.body.search), 'gi');
+        Article.find({ title: regex })
+            .sort({ _id: -1 })
+            .limit(req.body.limit)
+            .then(article => res.status(200).json(article))
+            .catch(error => res.status(400).json({
+                error: error
+            }));
+    } else {
+        res.status(200).json([]);
+    }
+    
+});
+
+
 module.exports = router;

@@ -65,7 +65,8 @@ const articleCheck = async (req, res, next) => {
                 return res.status(400).json({
                     error: `${req.body.article[1][i][type]} is empty.`
                 });
-            } else if (limits[req.body.article[1][i][type]] && req.body.article[1][i].value.length > limits[req.body.article[1][i][type]]) {
+            }
+            if (limits[req.body.article[1][i][type]] && req.body.article[1][i].value.length > limits[req.body.article[1][i][type]]) {
                 return res.status(400).json({error: `${req.body.article[1][i][type]} exceeds the ${limits[req.body.article[1][i][type]]} character limit.`});
             }
         }

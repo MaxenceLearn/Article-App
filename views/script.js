@@ -36,7 +36,7 @@ function getHome() {
 }
 
 function getFlow() {
-    document.getElementById('flow').click() 
+    getArticles()
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
     })
@@ -72,6 +72,81 @@ function getAdmin() {
    window.location.href = '/admin'
 }
 
+function getArticles() {
+    document.querySelector('.articles-flow').innerHTML = ''
+    document.querySelector('.articles-flow').innerHTML = '<div style="margin-top: 15px" id="center" class="loading-bar"><div class="loader"></div></div></div>'
+    fetch('/article/last', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                limit: 10
+            })
+            
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.articles-flow').innerHTML = ''
+            let index = 0
+            data.forEach(item => {
+                article = document.createElement('div')
+                article.classList.add('flow-art-main')
+                article.style.animationDuration = `${index * 0.2}s`
+                article.setAttribute('onclick', `getArticle('${item._id}')`)
+                article.innerHTML = `
+                <div class="flow-art-main art-load">
+                <img src="${item.preview}" class="home-art-img">
+                <div class="row-topic">
+                        <h1 class="home-art-title">${item.title}</h1>
+                        <div class="topic-profile">${item.topic}</div>
+                    </div>
+                <p class="home-art-desc">${item.description}</p>
+                </div>`
+                document.querySelector('.articles-flow').appendChild(article)
+                index++
+            })
+        })
+}
+
+document.querySelectorAll('.topics-flow') .forEach(item => {
+    item.addEventListener('click', event => {
+    document.querySelector('.articles-flow').innerHTML = ''
+    document.querySelector('.articles-flow').innerHTML = '<div style="margin-top: 15px" id="center" class="loading-bar"><div class="loader"></div></div></div>'
+        fetch('/article/last', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                limit: 10,
+                topic: event.target.innerText.toLowerCase()
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.articles-flow').innerHTML = ''
+            let index = 0
+            data.forEach(item => {
+                article = document.createElement('div')
+                article.classList.add('flow-art-main')
+                article.style.animationDuration = `${index * 0.2}s`
+                article.setAttribute('onclick', `getArticle('${item._id}')`)
+                article.innerHTML = `
+                <div class="flow-art-main art-load">
+                <img src="${item.preview}" class="home-art-img">
+                <div class="row-topic">
+                        <h1 class="home-art-title">${item.title}</h1>
+                        <div class="topic-profile">${item.topic}</div>
+                </div>
+                <p class="home-art-desc">${item.description}</p>
+                </div>`
+                document.querySelector('.articles-flow').appendChild(article)
+                index++
+            })
+        })
+    })
+})
 
 function toggleMenu() {
     document.querySelector('.art-content').classList.toggle('full')
@@ -217,7 +292,7 @@ function imageload() {
 document.querySelectorAll('.cancel').forEach(item => {
     item.addEventListener('click', () => {
         document.querySelectorAll('.log').forEach(item => {
-            item.style.display = 'none'
+            item.classList.remove('modal-open')
         })
     })
 })
@@ -245,18 +320,44 @@ document.getElementById('signup').addEventListener('click', () => {
         })
 })
 
-let log = document.querySelectorAll('.sign')
+let log = document.querySelectorAll('.open-modal');
 log.forEach(item => {
     item.addEventListener('click', () => {
-        document.getElementById('signup-popup').style.display = 'none'
-        document.getElementById('signin-popup').style.display = 'none'
-        if (item.id === 'signup-button') {
-            document.getElementById('signup-popup').style.display = 'flex'
+        const modalId = item.id.includes("signup") ? "signup-popup" :
+            item.id.includes("update") ? "update-popup" : "signin-popup";
+        document.getElementById(modalId).classList.add('modal-open');
+    });
+});
+
+document.getElementById('update').addEventListener('click', async () => {
+    try {
+        document.getElementById('update').classList.add('button--loading');
+        const response = await fetch('/log', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pseudo: document.getElementById('username-tu').value,
+                avatar: document.getElementById('avatar-tu').value,
+            }),
+        });
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error || 'An error occured');
+            document.getElementById('update').classList.remove('button--loading');
         } else {
-            document.getElementById('signin-popup').style.display = 'flex'
+            checkLogin();
+            document.getElementById('update-popup').classList.remove('modal-open');
+            document.getElementById('update').classList.remove('button--loading');
         }
-    })
-})
+    } catch (err) {
+        console.error(err);
+        alert(err);
+        document.getElementById('update').classList.remove('button--loading');
+    }
+});
+
 
 document.getElementById('signin').addEventListener('click', () => {
     fetch('/log/login', {
@@ -302,6 +403,7 @@ function checkLogin() {
                     localStorage.setItem('id', data.id)
                     document.getElementById('profile-image').src = data.avatar
                     document.querySelector('.profile-username').innerHTML = `${data.pseudo}`
+                    document.getElementById('username-tu').value = data.pseudo
                     document.querySelector('.profil-username-infos').innerHTML = `${data.role} @${data.pseudo.toLowerCase()}`
                     if (data.role === 'admin') {
                         document.getElementById('admin').style.display = 'flex'
@@ -422,6 +524,8 @@ items.forEach(function(item) {
 });
 
 function getArticle(id) {
+    document.querySelector('.for-you').innerHTML = ''
+    document.querySelector('.for-you').innerHTML = '<div style="margin-top: 20px;" id="center" class="loading-bar"><div class="loader"></div></div></div>'
     getReading()
     document.querySelector('.art-main').innerHTML = '<div id="center" class="loading-bar"><div class="loader"></div></div></div>'
     let article_main = document.querySelector('.art-main')
@@ -436,56 +540,64 @@ function getArticle(id) {
     })
     .then(response => response.json())
     .then(data => {
-        getReadingStuff(data[0].topic)
-        document.querySelector('.art-main').innerHTML = ''
-        let article_title = document.createElement('h1')
+        if (window.screen.width >= 1200) {
+            getReadingStuff(data[0].topic)
+        }
         let article_image = document.createElement('img')
-        article_title.classList.add('art-title')
-        article_title.innerHTML = `${data[0].title}`
         article_image.classList.add('art-image')
         article_image.setAttribute('src', `${data[0].preview}`)
-        article_main.appendChild(article_title)
-        article_main.appendChild(article_image)
-        data[0].content.forEach(function(item) {
-            let article_content = document.createElement('div')
-            article_content.classList.add(`${item.type}`)
-            article_main.appendChild(article_content)
-            switch (item.type) {
-                case 'paragraph':
-                    let paragraph = document.createElement('p')
-                    paragraph.innerHTML = `${item.value}`
-                    article_content.appendChild(paragraph)
-                    break;
-                case 'h1':
-                    let h1 = document.createElement('h1')
-                    h1.innerHTML = `${item.value}`
-                    article_content.appendChild(h1)
-                    break;
-                case 'h2':
-                    let h2 = document.createElement('h2')
-                    h2.innerHTML = `${item.value}`
-                    article_content.appendChild(h2)
-                    break;
-                case 'h3':
-                    let h3 = document.createElement('h3')
-                    h3.innerHTML = `${item.value}`
-                    article_content.appendChild(h3)
-                    break;
-                case 'quote':
-                    let quote = document.createElement('blockquote')
-                    quote.innerHTML = `"${item.value}"`
-                    article_content.appendChild(quote)
-                    break;
-                case 'image':
-                    let image = document.createElement('img')
-                    image.setAttribute('src', `${item.value}`)
-                    article_content.appendChild(image)
-                    break;
-                case 'callout':
-                    article_content.innerHTML = `<div style="min-width: 78px" class="loudspeaker"><img style="width: 35px" class="loudspeaker" src="./assets/loudspeaker.svg"></div><p class="call-out-text">${item.value}</p>`
-                    article_main.appendChild(article_content)
-                    break;       
-            }
+        let imageLoaded = new Promise((resolve, reject) => {
+            article_image.onload = resolve;
+            article_image.onerror = reject;
+        });
+        imageLoaded.then(() => {
+            document.querySelector('.art-main').innerHTML = ''
+            let article_title = document.createElement('h1')
+            article_title.classList.add('art-title')
+            article_title.innerHTML = `${data[0].title}`
+            article_main.appendChild(article_title)
+            article_main.appendChild(article_image)
+            data[0].content.forEach(function(item) {
+                let article_content = document.createElement('div')
+                article_content.classList.add(`${item.type}`)
+                article_main.appendChild(article_content)
+                switch (item.type) {
+                    case 'paragraph':
+                        let paragraph = document.createElement('p')
+                        paragraph.innerHTML = `${item.value}`
+                        article_content.appendChild(paragraph)
+                        break;
+                    case 'h1':
+                        let h1 = document.createElement('h1')
+                        h1.innerHTML = `${item.value}`
+                        article_content.appendChild(h1)
+                        break;
+                    case 'h2':
+                        let h2 = document.createElement('h2')
+                        h2.innerHTML = `${item.value}`
+                        article_content.appendChild(h2)
+                        break;
+                    case 'h3':
+                        let h3 = document.createElement('h3')
+                        h3.innerHTML = `${item.value}`
+                        article_content.appendChild(h3)
+                        break;
+                    case 'quote':
+                        let quote = document.createElement('blockquote')
+                        quote.innerHTML = `"${item.value}"`
+                        article_content.appendChild(quote)
+                        break;
+                    case 'image':
+                        let image = document.createElement('img')
+                        image.setAttribute('src', `${item.value}`)
+                        article_content.appendChild(image)
+                        break;
+                    case 'callout':
+                        article_content.innerHTML = `<div style="min-width: 78px" class="loudspeaker"><img style="width: 35px" class="loudspeaker" src="./assets/loudspeaker.svg"></div><p class="call-out-text">${item.value}</p>`
+                        article_main.appendChild(article_content)
+                        break;       
+                }
+            })
         })
         fetch('/getinfos/user', {
             method: 'POST',
@@ -520,10 +632,12 @@ function getHomeArticles(topic) {
     .then(response => response.json())
     .then(data => {
         document.querySelector('.articles').innerHTML = ''
-        data.forEach(function(article) {
+        data.forEach(function(article, index) {
+            index += 1
             let articleDiv = document.createElement('div')
-            articleDiv.classList.add('home-art-main', 'art-load')
+            articleDiv.classList.add('home-art-main')
             articleDiv.setAttribute('onclick', `getArticle('${article._id}')`)
+            articleDiv.style.animationDuration = `${index * 0.5}s`
             articleDiv.innerHTML = `
             <img src="${article.preview}"Logo" class="home-art-img">
             <h1 class="home-art-title">${article.title}</h1>
@@ -533,6 +647,63 @@ function getHomeArticles(topic) {
     })
 
 }
+
+const searchInput = document.getElementById("search-input");
+const debouncedUpdateArticles = debounce(updateArticles, 500);
+
+searchInput.addEventListener("keyup", function(){
+    let searchValue = searchInput.value;
+    debouncedUpdateArticles(searchValue);
+});
+
+
+function updateArticles(searchValue) {
+    document.querySelector('.articles-flow').innerHTML = ''
+    document.querySelector('.articles-flow').innerHTML = '<div style="margin-top: 15px" id="center" class="loading-bar"><div class="loader"></div></div></div>'
+    fetch('/article/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'search': `${searchValue}`,
+            'limit': 20
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.querySelector('.articles-flow').innerHTML = ''
+        let index = 0
+        data.forEach(item => {
+            article = document.createElement('div')
+            article.classList.add('flow-art-main')
+            article.style.animationDuration = `${index * 0.2}s`
+            article.setAttribute('onclick', `getArticle('${item._id}')`)
+            article.innerHTML = `
+            <div class="flow-art-main art-load">
+            <img src="${item.preview}" class="home-art-img">
+            <div class="row-topic">
+                    <h1 class="home-art-title">${item.title}</h1>
+                    <div class="topic-profile">${item.topic}</div>
+            </div>
+            <p class="home-art-desc">${item.description}</p>
+            </div>`
+            document.querySelector('.articles-flow').appendChild(article)
+            index++
+        })
+    })
+}
+
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    }
+}
+
 
 function getReadingStuff(topic) {
     fetch('/article/last', {
@@ -546,7 +717,7 @@ function getReadingStuff(topic) {
         })
     })
     .then(response => response.json())
-    .then(data => {
+    .then(data => {   
         document.querySelector('.for-you').innerHTML = ''
         data.forEach(function(article) {
             let articleFy = document.createElement('div')

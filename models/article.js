@@ -23,7 +23,7 @@ const articleSchema = mongoose.Schema({
     author: {
         type: String,
         required: true,
-        default: '63ab6bdb81312e580a7f7355'
+        default: '63c67e64294bdbb48a1ce94f'
     },
     content: {
         type: Object,
