@@ -378,7 +378,6 @@ document.getElementById('signin').addEventListener('click', () => {
             } else {
                 document.getElementById('signin-popup').style.display = 'none'
                 document.querySelector('.buttons-log').style.display = 'none'
-                document.querySelector('.user-infos').style.display = 'flex'
                 checkLogin()
             }
         })
@@ -395,9 +394,21 @@ function checkLogin() {
                     console.log('not logged')
                 } else {
                     document.getElementById('account').style.display = 'block'
-                    document.querySelector('.buttons-log').style.display = 'none'
-                    document.querySelector('.user-infos').style.display = 'flex'
-                    document.getElementById('user-name').innerHTML = `${data.pseudo}`
+                    document.getElementById('edit').style.display = 'block'
+                    document.querySelectorAll('.buttons-log').forEach(item => {
+                        item.style.display = 'none'
+                    })
+                    document.querySelector(".utils").style.display = 'flex'
+                    console.log(window.innerWidth)
+                    if (window.innerWidth < 1200) {
+                        document.getElementById('ui-home').style.display = 'flex'
+                    } else {
+                        console.log('ok')
+                        document.getElementById('ui-sidebar').style.display = 'flex'
+                    }
+                    document.querySelectorAll('.user-name').forEach(item => {
+                        item.innerHTML = `${data.pseudo}`
+                    })
                     localStorage.setItem('user', data.pseudo)
                     localStorage.setItem('avatar', data.avatar)
                     localStorage.setItem('id', data.id)
@@ -413,6 +424,17 @@ function checkLogin() {
         })
 }
 
+document.getElementById('logout').addEventListener('click', () => {
+    fetch('/log/logout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.log(data.error)
+            } else {
+                window.location.reload()
+            }
+        })
+})
 
 
 function enableDragSort(listClass) {
@@ -540,81 +562,85 @@ function getArticle(id) {
     })
     .then(response => response.json())
     .then(data => {
-        if (window.screen.width >= 1200) {
-            getReadingStuff(data[0].topic)
+        if (data.error) {
+            getHome()
+        } else {
+            if (window.innerWidth >= 1200) {
+                getReadingStuff(data[0].topic)
+            }
+            let article_image = document.createElement('img')
+            article_image.classList.add('art-image')
+            article_image.setAttribute('src', `${data[0].preview}`)
+            let imageLoaded = new Promise((resolve, reject) => {
+                article_image.onload = resolve;
+                article_image.onerror = reject;
+            });
+            imageLoaded.then(() => {
+                document.querySelector('.art-main').innerHTML = ''
+                let article_title = document.createElement('h1')
+                article_title.classList.add('art-title')
+                article_title.innerHTML = `${data[0].title}`
+                article_main.appendChild(article_title)
+                article_main.appendChild(article_image)
+                data[0].content.forEach(function(item) {
+                    let article_content = document.createElement('div')
+                    article_content.classList.add(`${item.type}`)
+                    article_main.appendChild(article_content)
+                    switch (item.type) {
+                        case 'paragraph':
+                            let paragraph = document.createElement('p')
+                            paragraph.innerHTML = `${item.value}`
+                            article_content.appendChild(paragraph)
+                            break;
+                        case 'h1':
+                            let h1 = document.createElement('h1')
+                            h1.innerHTML = `${item.value}`
+                            article_content.appendChild(h1)
+                            break;
+                        case 'h2':
+                            let h2 = document.createElement('h2')
+                            h2.innerHTML = `${item.value}`
+                            article_content.appendChild(h2)
+                            break;
+                        case 'h3':
+                            let h3 = document.createElement('h3')
+                            h3.innerHTML = `${item.value}`
+                            article_content.appendChild(h3)
+                            break;
+                        case 'quote':
+                            let quote = document.createElement('blockquote')
+                            quote.innerHTML = `"${item.value}"`
+                            article_content.appendChild(quote)
+                            break;
+                        case 'image':
+                            let image = document.createElement('img')
+                            image.setAttribute('src', `${item.value}`)
+                            article_content.appendChild(image)
+                            break;
+                        case 'callout':
+                            article_content.innerHTML = `<div style="min-width: 78px" class="loudspeaker"><img style="width: 35px" class="loudspeaker" src="./assets/loudspeaker.svg"></div><p class="call-out-text">${item.value}</p>`
+                            article_main.appendChild(article_content)
+                            break;       
+                    }
+                })
+            })
+            fetch('/getinfos/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id': data[0].author
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let author = document.createElement('div')
+                author.classList.add('author')
+                author.innerHTML = `<img class="author-img" src="${data.avatar}"><p class="author-name">${data.pseudo} (${data.role})</p>`
+                article_main.appendChild(author)
+            })
         }
-        let article_image = document.createElement('img')
-        article_image.classList.add('art-image')
-        article_image.setAttribute('src', `${data[0].preview}`)
-        let imageLoaded = new Promise((resolve, reject) => {
-            article_image.onload = resolve;
-            article_image.onerror = reject;
-        });
-        imageLoaded.then(() => {
-            document.querySelector('.art-main').innerHTML = ''
-            let article_title = document.createElement('h1')
-            article_title.classList.add('art-title')
-            article_title.innerHTML = `${data[0].title}`
-            article_main.appendChild(article_title)
-            article_main.appendChild(article_image)
-            data[0].content.forEach(function(item) {
-                let article_content = document.createElement('div')
-                article_content.classList.add(`${item.type}`)
-                article_main.appendChild(article_content)
-                switch (item.type) {
-                    case 'paragraph':
-                        let paragraph = document.createElement('p')
-                        paragraph.innerHTML = `${item.value}`
-                        article_content.appendChild(paragraph)
-                        break;
-                    case 'h1':
-                        let h1 = document.createElement('h1')
-                        h1.innerHTML = `${item.value}`
-                        article_content.appendChild(h1)
-                        break;
-                    case 'h2':
-                        let h2 = document.createElement('h2')
-                        h2.innerHTML = `${item.value}`
-                        article_content.appendChild(h2)
-                        break;
-                    case 'h3':
-                        let h3 = document.createElement('h3')
-                        h3.innerHTML = `${item.value}`
-                        article_content.appendChild(h3)
-                        break;
-                    case 'quote':
-                        let quote = document.createElement('blockquote')
-                        quote.innerHTML = `"${item.value}"`
-                        article_content.appendChild(quote)
-                        break;
-                    case 'image':
-                        let image = document.createElement('img')
-                        image.setAttribute('src', `${item.value}`)
-                        article_content.appendChild(image)
-                        break;
-                    case 'callout':
-                        article_content.innerHTML = `<div style="min-width: 78px" class="loudspeaker"><img style="width: 35px" class="loudspeaker" src="./assets/loudspeaker.svg"></div><p class="call-out-text">${item.value}</p>`
-                        article_main.appendChild(article_content)
-                        break;       
-                }
-            })
-        })
-        fetch('/getinfos/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'id': data[0].author
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            let author = document.createElement('div')
-            author.classList.add('author')
-            author.innerHTML = `<img class="author-img" src="${data.avatar}"><p class="author-name">${data.pseudo} (${data.role})</p>`
-            article_main.appendChild(author)
-        })
     })
 }
 
@@ -694,6 +720,8 @@ function updateArticles(searchValue) {
     })
 }
 
+
+
 function debounce(func, delay) {
     let debounceTimer;
     return function() {
@@ -752,6 +780,8 @@ function init() {
 
 init()
 
+const url = new URL(window.location.href);
+const id = url.searchParams.get("a");
 
 
 window.addEventListener('load', function () {
@@ -761,4 +791,8 @@ window.addEventListener('load', function () {
         document.querySelector('.blur').style.display = 'none'
         document.querySelector('.introduction').style.display = 'none'
     }, 1500)
+    if (id) {
+        getArticle(id);
+        getReading();  
+    }    
 })

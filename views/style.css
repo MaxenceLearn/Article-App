@@ -202,7 +202,7 @@ img.thumbnail {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 .topic-profile {
@@ -570,6 +570,9 @@ section.edit {
     overflow-y: scroll;
     overflow-x: hidden;
 }
+#edit {
+    display: none;
+}
 
 h1.edit-title {
     font-size: 2.5rem;
@@ -873,6 +876,7 @@ div.flow-art-main {
 }
 
 h1.home-art-title {
+    margin-top: 10px;
     font-size: 1.2rem;
     font-weight: 400;
     font-family: Poppins, sans-serif;
@@ -919,9 +923,12 @@ div.home-head {
     height: 60px;
 }
 
+
 img.icos {
-    width: 25px;
-    margin-right: 11px;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    margin-right: 15px;
 }
 
 input.search {
@@ -1002,6 +1009,7 @@ h1.home-title {
 }
 
 section.infos {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1049,6 +1057,12 @@ div.buttons-collumn {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.buttons-collumn > button:hover {
+    transition: all 0.2s ease-in-out;
+    filter: brightness(1.1);
+    color: white;
 }
 
 button.edit-ai {
@@ -1417,8 +1431,15 @@ p.premium-desc {
     margin-top: 5px;
 }
 
+#ui-buttons {
+    display: none;
+    margin-top: 0;
+}
+
 div.buttons-log {
-    width: 90%;
+    z-index: 10;
+    margin-top: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -1439,7 +1460,7 @@ button.premium-button {
 
 div.premium {
     padding: 20px;
-    width: 90%;
+    width: 100%;
     height: 200px;
     border-radius: 10px;
     background: linear-gradient(290.71deg, #000000 0.6%, rgba(0, 0, 0, 0.73) 100%);
@@ -1458,8 +1479,7 @@ button.sign {
     justify-content: center;
     width: 65%;
     height: 50px;
-    margin: 5px;
-    margin-top: 28px;
+    margin-inline: 5px;
     border-radius: 50px;
     border: none;
     background: linear-gradient(290.71deg, #000000 0.6%, rgba(0, 0, 0, 0.73) 100%);
@@ -1554,13 +1574,19 @@ div.log > button {
     cursor: pointer;
 }
 
+div.utils {
+    display: none;
+}
+
 div.user-infos {
-    width: 90%;
+    width: 100%;
     display: none;
     flex-direction: row;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
+
+
 
 div.user-infos > img {
     width: 60px;
@@ -1582,7 +1608,20 @@ div.user-infos > h1 {
     margin-right: 10px;
 }
 
-@media screen and (max-width: 320px) {
+#ui-sidebar {
+    display: none;
+}
+
+#ui-home {
+    display: none;
+    margin-top: 0;
+}
+
+.active-profile {
+    display: flex;
+}
+
+@media screen and (max-width: 400px) {
     #edit {
         display: none;
     }
@@ -1638,6 +1677,15 @@ div.user-infos > h1 {
         margin-bottom: 20px;
         margin-left: 0;
     }
+    #home-search {
+        display: none;
+    }
+    #search-input {
+        width: 100%;
+    }
+    #ui-buttons {
+        display: flex;
+    }
 }
 
 
@@ -1648,9 +1696,6 @@ div.user-infos > h1 {
         border-bottom: 2px solid rgb(231, 231, 231);
         width: 100%;
         height: 80px;
-    }
-    input.search {
-        width: 70%;
     }
     #home {
         margin-top: 22px;
@@ -1727,6 +1772,9 @@ div.user-infos > h1 {
     }
     section.account {
         padding: 10px;
+    }
+    div.infos-container {
+        padding-inline: 12px;
     }
 }
 

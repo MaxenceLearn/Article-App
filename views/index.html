@@ -62,10 +62,19 @@
     <section class="section home">
         <section class="home-main">
             <div class="home-head">
-                <input type="text" class="search" placeholder="Search">
-                <div>
-                    <img src="./assets/favoris.png" alt="Logo" id="favoris" class="icos">
-                    <img src="./assets/notification.png" alt="Logo" id="notifs" class="icos">
+                <input onclick="getFlow()" id="home-search" type="text" class="search" placeholder="Search">
+                <div id="ui-home" class="user-infos">
+                    <img src="./assets/default.png" alt="Logo" class="user-img">
+                    <h1 class="user-name" id="user-name">Maxence</h1>
+                </div>
+                <div id="ui-buttons" class="buttons-log">
+                    <button id="signin-button" class="sign open-modal">Sign In</button>
+                    <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign open-modal">SignUp</button>
+                </div>
+                <div class="utils">
+                    <img src="./assets/favoris.svg" alt="Logo" id="favoris" class="icos">
+                    <img src="./assets/notification.svg" alt="Logo" id="notifs" class="icos">
+                    <img src="./assets/log-out.svg" alt="Logo" id="logout" class="icos">
                 </div>
             </div>
             <div style="width: 100%;" class="divider"></div>
@@ -100,9 +109,9 @@
                 <button id="signin-button" class="sign open-modal">Sign In</button>
                 <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign open-modal">SignUp</button>
             </div>
-            <div class="user-infos">
+            <div id="ui-sidebar" class="user-infos">
                 <img src="./assets/default.png" alt="Logo" class="user-img">
-                <h1 id="user-name">User</h1>
+                <h1 class="user-name" id="user-name">User</h1>
             </div>
             <div class="premium">
                 <img src="./assets/premium.png" alt="Logo" class="premium-img">
@@ -118,7 +127,7 @@
 
     <section class="section flow">
         <div class="home-head">
-            <input style="width: 80%;" type="text" class="search" placeholder="Search" id="search-input">
+            <input type="text" class="search" placeholder="Search" id="search-input">
         </div>
             <div class="topics-flow">
                 <div id="current" class="topic">Health</div>
@@ -155,7 +164,7 @@
             </div>
             <div class="divider"></div>
             <h1 style="font-weight: 600;" class="more-title">More Interesting Topic</h1>
-            <div class="topics">
+            <div onclick="getFlow()" class="topics">
                 <div class="topic">Health</div>
                 <div class="topic">Economy</div>
                 <div class="topic">Tech</div>
