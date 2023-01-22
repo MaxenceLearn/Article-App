@@ -199,6 +199,7 @@ img.thumbnail {
     object-fit: cover;
 }
 .row-topic {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -649,10 +650,13 @@ div.callout {
     margin-top: 20px;
 }
 
+div.image {
+    margin-top: 10px;
+}
+
 div.image > img {
     width: 100%;
     max-width: 700px;
-    margin-top: 20px;
 }
 
 
@@ -873,6 +877,63 @@ div.flow-art-main {
     width: 370px;
     animation: art-load 0.5s ease-in-out;
     animation-fill-mode: forwards;
+}
+
+.file-input {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    background: #fff;
+    position: relative;
+    border-radius: 3px;
+  }
+  
+  .file-input > [type='file'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  .file-input > .button {
+    display: inline-block;
+    cursor: pointer;
+    background: #eee;
+    padding: 8px 16px;
+    border-radius: 2px;
+    margin-right: 8px;
+    transition: all .2s ease-in-out;
+  }
+  
+  .file-input:hover > .button {
+    background: rgb(38, 38, 38);
+    color: white;
+  }
+  
+  .file-input > .label {
+    color: #333;
+    white-space: nowrap;
+    opacity: .3;
+  }
+  
+  .file-input.-chosen > .label {
+    opacity: 1;
+  }
+
+input.file {
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgb(231, 231, 231);
+}
+
+#active > div.articles-flow > div > div > div > h1 {
+    margin-top: 0;
 }
 
 h1.home-art-title {
@@ -1268,7 +1329,7 @@ img.art-image {
     width: 100%;
     max-width: 850px;
     margin-top: 10px;
-    max-height: 900px;
+    max-height: 600px;
 }
 
 textarea.callout {
@@ -1417,7 +1478,7 @@ button.load-img {
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(-560px);
+        transform: translateY(-500px);
     }
 }
 
@@ -1500,7 +1561,6 @@ div.log {
     height: 100vh;
     z-index: 10;
     background-color: #ffffff;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     flex-direction: column;
     align-items: center;
     border-radius: 5px;

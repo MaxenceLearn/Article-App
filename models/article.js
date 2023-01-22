@@ -26,7 +26,7 @@ const articleSchema = mongoose.Schema({
         default: '63c67e64294bdbb48a1ce94f'
     },
     content: {
-        type: Object,
+        type: Array,
         required: true,
     }
 });

@@ -3,12 +3,8 @@ const router = express.Router();
 const articleCheck = require('../middlewares/articleCheck');
 const Article = require('../models/article');
 const jwt = require('jsonwebtoken');
-const {checkFile, fileUpload} = require('../middlewares/fileUpload');
-router.post('/', fileUpload, checkFile, (req, res) => {
-    console.log(req.body);
-    if (!req.body.title || !req.body.description || !req.body.topic || !req.body) {
-        return res.status(400).json({error: 'Please specify all required fields'});
-    }
+const fileUpload = require('../middlewares/uploadFile');
+router.post('/', fileUpload, articleCheck, (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.json({ logged: false });
     const decodedToken = jwt.verify(token, 'TOKEN');
@@ -29,7 +25,6 @@ router.post('/', fileUpload, checkFile, (req, res) => {
             error: error
         }));
 });
-
 
 router.post('/last', (req, res) => {
     console.log(req.body);

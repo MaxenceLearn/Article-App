@@ -4,7 +4,6 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 // Import routes
-const remote = require('./routes/remote');
 const log = require('./routes/log');
 const getinfos = require('./routes/getInfos');
 const article = require('./routes/article');
@@ -25,10 +24,9 @@ mongoose.connect('mongodb+srv://admin:nSfNRGjtYYrVZvcq@cluster0.ap1m6ba.mongodb.
 app.get('/', (req, res) => {
     res.render('../views/index');
 });
-
-app.use('/remote', remote);
 app.use('/log', log);
 app.use('/getinfos', getinfos);
 app.use('/article', article);
+
 
 module.exports = app;

@@ -181,7 +181,11 @@
         <input maxlength="200" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="85" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
         <form enctype="multipart/form-data">
-            <input type="file" id="thumbnail" name="thumbnail" />
+            <div class='file-input'>
+                <input class="file" type="file" name="thumbnail" id="thumbnail" />
+                <span class='button'>Choose an image</span>
+                <span class='label' data-js-label>No file selected</label>
+            </div>
           </form>
         <div class="topics">
             <div id="selected" class="topic current health">Health</div>
@@ -229,10 +233,6 @@
             <li id="image" class="element image">
                 <img src="./assets/image.png" class="icon-element">
                 <p class="element-infos">Image<br><span class="element-desc">Add an image to your article wich can be resized</span></p>
-            </li>
-            <li id="youtube" class="element youtube">
-                <img src="./assets/youtube.png" class="icon-element">
-                <p class="element-infos">Youtube<br><span class="element-desc">Embed a youtube video</span></p>
             </li>
         </ul>
         <ul class="art-content full contain-main">

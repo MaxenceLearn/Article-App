@@ -28,6 +28,7 @@ document.querySelectorAll('.topic').forEach(item => {
 
 
 function getHome() {
+    window.history.pushState('page', 'Title', `/`);
     document.getElementById('home').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
@@ -229,32 +230,44 @@ function deleteArticle(id) {
 
 
 document.getElementById('RTS').addEventListener('click', event => {
-    if(confirm('Are you sure you to publish this article ?')){
+    if(confirm('Are you sure you want to publish this article ?')) {
         let fileInput = document.getElementById("thumbnail");
+        if (fileInput.files.length === 0) {
+            alert('Please select a file to upload');
+            document.getElementById('RTS').classList.remove('button--loading')
+            return;
+        }
         let formData = new FormData();
-        formData.append("thumbnail", fileInput.files[0]);
-        formData.append("title", document.querySelector('.edit-title-input').value);
-        formData.append("description", document.querySelector('.edit-textarea').value);
-        formData.append("topic", document.getElementById('selected').innerText.toLowerCase());
+        formData.append('title', document.querySelector('.edit-title-input').value);
+        formData.append('description', document.querySelector('.edit-textarea').value);
+        formData.append('topic', document.getElementById('selected').innerText.toLowerCase());
+        formData.append('thumbnail', fileInput.files[0]);
+        let content = []
         document.querySelectorAll('.to-publish').forEach(item => {
-            formData.append(item.id, item.value);
+            let value = item.value
+            let dico = {
+                'type': `${item.id}`,
+                'value': `${value}`,
+            }
+            content.push(dico)
         });
-        console.log(formData);
+        formData.append('content', JSON.stringify(content));
         fetch('/article', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error || 'An error occured')
-                    document.getElementById('RTS').classList.remove('button--loading')
-                } else {
-                    getArticle(data._id)
-                }
-            });
+            method: 'POST',
+            body: formData
+        }).then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error || 'An error occured')
+                document.getElementById('RTS').classList.remove('button--loading')
+            } else {
+                getArticle(data._id)
+                document.getElementById('RTS').classList.remove('button--loading')
+            }
+        });
     }
 });
+
 
 
 
@@ -442,6 +455,7 @@ function enableDragItem(item) {
     item.setAttribute('draggable', true)
     item.ondrag = handleDrag;
     item.ondragend = handleDrop;
+    item.ondblclick = handleDoubleClick;
 }
 
 function handleDrag(item) {
@@ -462,6 +476,11 @@ function handleDrag(item) {
 function handleDrop(item) {
     item.target.classList.remove('drag-sort-active');
 }
+
+function handleDoubleClick(item) {
+    item.target.remove();
+}
+
 
 
 items = document.querySelectorAll(".element"); //Get items
@@ -506,7 +525,7 @@ items.forEach(function(item) {
                 break;
             case 'image':
                 image = document.createElement('li')
-                image.innerHTML = '<div class="col-img"><img class="img-td" src="./assets/noimage.png"><div class="row-upload"><input maxlength="500" placeholder="Image Url" id="image" placeholder="Image url" class="to-publish image"><button style="margin-right: 0; border-radius: 0; width: 50%;" class="edit-publish">Upload</button></div></div>'
+                image.innerHTML = '<input maxlength="500" placeholder="Image Url" id="image" placeholder="Image url" class="to-publish image">'
                 image.setAttribute('draggable', 'true')
                 image.classList.add('img-size')
                 image.classList.add('contain')
@@ -519,19 +538,33 @@ items.forEach(function(item) {
                 callout.setAttribute('class', 'contain')
                 artcontent.appendChild(callout)
                 break;
-            case 'youtube':
-                youtube = document.createElement('li')
-                youtube.innerHTML = '<div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/37gEog2VEkg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'
-                youtube.setAttribute('draggable', 'true')
-                youtube.setAttribute('class', 'contain')
-                youtube.classList.add('video-size')
-                artcontent.appendChild(youtube)
-                break;
         }
         enableDragSort('art-content')
         toggleMenu()
     });
 });
+
+
+
+let inputs = document.querySelectorAll('.file-input')
+
+for (var i = 0, len = inputs.length; i < len; i++) {
+  customInput(inputs[i])
+}
+
+function customInput (el) {
+  const fileInput = el.querySelector('[type="file"]')
+  const label = el.querySelector('[data-js-label]')
+  
+  fileInput.onchange =
+  fileInput.onmouseout = function () {
+    if (!fileInput.value) return
+    
+    let value = fileInput.value.replace(/^.*[\\\/]/, '')
+    el.className += ' -chosen'
+    label.innerText = value
+  }
+}
 
 function getArticle(id) {
     document.querySelector('.for-you').innerHTML = ''
@@ -553,6 +586,7 @@ function getArticle(id) {
         if (data.error) {
             getHome()
         } else {
+            window.history.pushState('page', 'Title', `/?a=${data[0]._id}`);
             if (window.innerWidth >= 1200) {
                 getReadingStuff(data[0].topic)
             }
