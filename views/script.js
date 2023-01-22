@@ -229,45 +229,33 @@ function deleteArticle(id) {
 
 
 document.getElementById('RTS').addEventListener('click', event => {
-    if(confirm('Are you sure you to publish this article ?'))
-    list = []
-    list.push({
-        'title': document.querySelector('.edit-title-input').value,
-        'description': document.querySelector('.edit-textarea').value,
-        'topic': document.getElementById('selected').innerText.toLowerCase(),
-        'preview': document.getElementById('preview').value
-    })
-    content = []
-    document.querySelectorAll('.to-publish').forEach(item => {
-        value = item.value
-        dico = {
-            'type': `${item.id}`,
-            'value': `${value}`,
-        }
-
-        content.push(dico)
-    })
-    list.push(content)
-    console.log(list)
-    fetch('/article', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                'article': list
+    if(confirm('Are you sure you to publish this article ?')){
+        let fileInput = document.getElementById("thumbnail");
+        let formData = new FormData();
+        formData.append("thumbnail", fileInput.files[0]);
+        formData.append("title", document.querySelector('.edit-title-input').value);
+        formData.append("description", document.querySelector('.edit-textarea').value);
+        formData.append("topic", document.getElementById('selected').innerText.toLowerCase());
+        document.querySelectorAll('.to-publish').forEach(item => {
+            formData.append(item.id, item.value);
+        });
+        console.log(formData);
+        fetch('/article', {
+                method: 'POST',
+                body: formData
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error || 'An error occured')
-                document.getElementById('RTS').classList.remove('button--loading')
-            } else {
-                getArticle(data._id)
-            }
-        })
-})
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error || 'An error occured')
+                    document.getElementById('RTS').classList.remove('button--loading')
+                } else {
+                    getArticle(data._id)
+                }
+            });
+    }
+});
+
 
 
 

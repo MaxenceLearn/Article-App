@@ -180,7 +180,9 @@
         <h1 data-max-length="10" class="edit-title">Article Editor V1</h1>
         <input maxlength="200" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="85" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
-        <input id="preview" maxlength="500" minlength="6" type="text" class="edit-title-input" placeholder="Thumbmail, url.png/jpg">
+        <form enctype="multipart/form-data">
+            <input type="file" id="thumbnail" name="thumbnail" />
+          </form>
         <div class="topics">
             <div id="selected" class="topic current health">Health</div>
             <div class="topic">Economy</div>

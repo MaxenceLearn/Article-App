@@ -3,17 +3,22 @@ const router = express.Router();
 const articleCheck = require('../middlewares/articleCheck');
 const Article = require('../models/article');
 const jwt = require('jsonwebtoken');
-router.post('/', articleCheck, (req, res) => {
+const {checkFile, fileUpload} = require('../middlewares/fileUpload');
+router.post('/', fileUpload, checkFile, (req, res) => {
+    console.log(req.body);
+    if (!req.body.title || !req.body.description || !req.body.topic || !req.body) {
+        return res.status(400).json({error: 'Please specify all required fields'});
+    }
     const token = req.cookies.token;
     if (!token) return res.json({ logged: false });
     const decodedToken = jwt.verify(token, 'TOKEN');
     const userId = decodedToken.userId;
     const article = new Article({
-        title: req.body.article[0].title,
-        description: req.body.article[0].description,
-        topic: req.body.article[0].topic,
-        content: req.body.article[1],
-        preview: req.body.article[0].preview,
+        title: req.body.title,
+        description: req.body.description,
+        topic: req.body.topic,
+        content: req.body.content,
+        preview: `cdn/${req.file.filename}`,
         author: userId
     });
     article.save()
@@ -24,6 +29,7 @@ router.post('/', articleCheck, (req, res) => {
             error: error
         }));
 });
+
 
 router.post('/last', (req, res) => {
     console.log(req.body);

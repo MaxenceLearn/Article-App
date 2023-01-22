@@ -13,28 +13,9 @@ const articleCheck = async (req, res, next) => {
         "image": 500, 
         "youtube": 200
     }
-    let firstObject = req.body.article[0];
-    if (!firstObject.preview) 
-    return res.status(400).json({error: 'Preview image is missing'});
+    let firstObject = req.body
 
-    const preview = firstObject.preview;
-    const imageUrl = new URL(preview);
-    const fileExt = imageUrl.pathname.split('.').pop();
-
-    if (!["jpeg", "jpg", "png", "gif"].includes(fileExt)) 
-        return res.status(400).json({error: 'Invalid image type'});
-
-    const maxSize = 1000000;
-
-    const response = await fetch(preview, {method: 'HEAD'});
-    const buffer = await response.arrayBuffer();
-    const imageSize = buffer.byteLength;
-    console.log(imageSize);
-
-    if(imageSize > maxSize)
-        return res.status(400).json({error: 'Image size exceeds the 1mo limit'});
-
-    if (!firstObject.title)
+    if (!req.body.article)
         return res.status(400).json({
             error: 'Title cannot be empty'
         });
@@ -54,7 +35,6 @@ const articleCheck = async (req, res, next) => {
         return res.status(400).json({
             error: `Topic is not allowed, allowed topics are ${allowedTopics}`
         });
-        console.log(req.body.article[1]);
     if (req.body.article[1].length < 1)
         return res.status(400).json({
             error: 'Please specify at least one element'
