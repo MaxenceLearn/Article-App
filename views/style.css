@@ -113,17 +113,18 @@ h3.profile-username {
 }
 img.profile-img {
     width: 100px;
+    object-fit: cover;
     height: 100px;
     border-radius: 50%;
     border: 3px solid white;
     margin-top: -50px;
     margin-left: 30px;
     z-index: 100;
+    transition: all 0.2s ease-in-out;
 }
 
 img.profile-img:hover {
-    cursor: pointer;
-    filter: brightness(0.8);
+    transform: scale(1.05);
 }
 
 div.profil-options {
@@ -198,9 +199,11 @@ img.thumbnail {
     object-fit: cover;
 }
 .row-topic {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 5px;
 }
 
 .topic-profile {
@@ -568,6 +571,9 @@ section.edit {
     overflow-y: scroll;
     overflow-x: hidden;
 }
+#edit {
+    display: none;
+}
 
 h1.edit-title {
     font-size: 2.5rem;
@@ -644,10 +650,13 @@ div.callout {
     margin-top: 20px;
 }
 
+div.image {
+    margin-top: 10px;
+}
+
 div.image > img {
     width: 100%;
     max-width: 700px;
-    margin-top: 20px;
 }
 
 
@@ -764,9 +773,26 @@ section.more-art {
 
 div.more-main {
     display: flex;
+    cursor: pointer;
     flex-direction: column;
     align-items: center;
     margin-top: 25px;
+}
+
+.home-art-main {
+    animation: art-load 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes art-load {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 div.divider {
@@ -803,7 +829,7 @@ div.topic {
 
 img.more-img {
     width: 92%;
-    height: 100%;
+    height: 200px;
     object-fit: cover;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgb(198, 198, 198);
@@ -844,21 +870,81 @@ div.home-art-main {
 }
 
 div.flow-art-main {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-right: 40px;
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 370px;
+    animation: art-load 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.file-input {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    background: #fff;
+    position: relative;
+    border-radius: 3px;
+  }
+  
+  .file-input > [type='file'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  .file-input > .button {
+    display: inline-block;
+    cursor: pointer;
+    background: #eee;
+    padding: 8px 16px;
+    border-radius: 2px;
+    margin-right: 8px;
+    transition: all .2s ease-in-out;
+  }
+  
+  .file-input:hover > .button {
+    background: rgb(38, 38, 38);
+    color: white;
+  }
+  
+  .file-input > .label {
+    color: #333;
+    white-space: nowrap;
+    opacity: .3;
+  }
+  
+  .file-input.-chosen > .label {
+    opacity: 1;
+  }
+
+input.file {
+    width: 100%;
+    height: 50px;
+    border: 1px solid rgb(231, 231, 231);
+}
+
+#active > div.articles-flow > div > div > div > h1 {
+    margin-top: 0;
 }
 
 h1.home-art-title {
+    margin-top: 10px;
     font-size: 1.2rem;
     font-weight: 400;
-    margin-top: 10px;
     font-family: Poppins, sans-serif;
 }
 
 img.home-art-img {
+    cursor: pointer;
     border-radius: 5px;
     width: 370px;
     height: 200px;
@@ -898,9 +984,12 @@ div.home-head {
     height: 60px;
 }
 
+
 img.icos {
-    width: 25px;
-    margin-right: 11px;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    margin-right: 15px;
 }
 
 input.search {
@@ -981,6 +1070,7 @@ h1.home-title {
 }
 
 section.infos {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1028,6 +1118,12 @@ div.buttons-collumn {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.buttons-collumn > button:hover {
+    transition: all 0.2s ease-in-out;
+    filter: brightness(1.1);
+    color: white;
 }
 
 button.edit-ai {
@@ -1233,7 +1329,7 @@ img.art-image {
     width: 100%;
     max-width: 850px;
     margin-top: 10px;
-    max-height: 900px;
+    max-height: 600px;
 }
 
 textarea.callout {
@@ -1382,7 +1478,7 @@ button.load-img {
         transform: translateY(0%);
     }
     100% {
-        transform: translateY(-560px);
+        transform: translateY(-500px);
     }
 }
 
@@ -1396,8 +1492,15 @@ p.premium-desc {
     margin-top: 5px;
 }
 
+#ui-buttons {
+    display: none;
+    margin-top: 0;
+}
+
 div.buttons-log {
-    width: 90%;
+    z-index: 10;
+    margin-top: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -1418,7 +1521,7 @@ button.premium-button {
 
 div.premium {
     padding: 20px;
-    width: 90%;
+    width: 100%;
     height: 200px;
     border-radius: 10px;
     background: linear-gradient(290.71deg, #000000 0.6%, rgba(0, 0, 0, 0.73) 100%);
@@ -1437,8 +1540,7 @@ button.sign {
     justify-content: center;
     width: 65%;
     height: 50px;
-    margin: 5px;
-    margin-top: 28px;
+    margin-inline: 5px;
     border-radius: 50px;
     border: none;
     background: linear-gradient(290.71deg, #000000 0.6%, rgba(0, 0, 0, 0.73) 100%);
@@ -1452,18 +1554,49 @@ button.sign {
 
 
 div.log {
+    display: flex;
     position: absolute;
+    transform: translateY(100%);
     width: 100%;
     height: 100vh;
     z-index: 10;
     background-color: #ffffff;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-    display: none;
     flex-direction: column;
     align-items: center;
     border-radius: 5px;
     justify-content: center;
     padding: 50px;
+}
+
+.modal-open {
+    animation: opening 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.modal-close {
+    animation: closing 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+@keyframes closing {
+    0% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes opening {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
 }
 
 div.log > input {
@@ -1501,13 +1634,19 @@ div.log > button {
     cursor: pointer;
 }
 
+div.utils {
+    display: none;
+}
+
 div.user-infos {
-    width: 90%;
+    width: 100%;
     display: none;
     flex-direction: row;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
+
+
 
 div.user-infos > img {
     width: 60px;
@@ -1529,7 +1668,20 @@ div.user-infos > h1 {
     margin-right: 10px;
 }
 
-@media screen and (max-width: 320px) {
+#ui-sidebar {
+    display: none;
+}
+
+#ui-home {
+    display: none;
+    margin-top: 0;
+}
+
+.active-profile {
+    display: flex;
+}
+
+@media screen and (max-width: 400px) {
     #edit {
         display: none;
     }
@@ -1585,6 +1737,15 @@ div.user-infos > h1 {
         margin-bottom: 20px;
         margin-left: 0;
     }
+    #home-search {
+        display: none;
+    }
+    #search-input {
+        width: 100%;
+    }
+    #ui-buttons {
+        display: flex;
+    }
 }
 
 
@@ -1595,9 +1756,6 @@ div.user-infos > h1 {
         border-bottom: 2px solid rgb(231, 231, 231);
         width: 100%;
         height: 80px;
-    }
-    input.search {
-        width: 70%;
     }
     #home {
         margin-top: 22px;
@@ -1670,10 +1828,13 @@ div.user-infos > h1 {
         width: 100%;
     }
     img.home-art-img {
-        min-width: 100%;
+        width: 100%;
     }
     section.account {
         padding: 10px;
+    }
+    div.infos-container {
+        padding-inline: 12px;
     }
 }
 

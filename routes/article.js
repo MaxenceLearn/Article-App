@@ -3,17 +3,18 @@ const router = express.Router();
 const articleCheck = require('../middlewares/articleCheck');
 const Article = require('../models/article');
 const jwt = require('jsonwebtoken');
-router.post('/', articleCheck, (req, res) => {
+const fileUpload = require('../middlewares/uploadFile');
+router.post('/', fileUpload, articleCheck, (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.json({ logged: false });
     const decodedToken = jwt.verify(token, 'TOKEN');
     const userId = decodedToken.userId;
     const article = new Article({
-        title: req.body.article[0].title,
-        description: req.body.article[0].description,
-        topic: req.body.article[0].topic,
-        content: req.body.article[1],
-        preview: req.body.article[0].preview,
+        title: req.body.title,
+        description: req.body.description,
+        topic: req.body.topic,
+        content: req.body.content,
+        preview: `cdn/${req.file.filename}`,
         author: userId
     });
     article.save()
@@ -77,5 +78,28 @@ router.delete('/', (req, res) => {
             error: error
         }));
 });
+
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+router.post('/search', (req, res) => {
+    console.log(req.body);
+    if (req.body.search) {
+        const regex = new RegExp(escapeRegex(req.body.search), 'gi');
+        Article.find({ title: regex })
+            .sort({ _id: -1 })
+            .limit(req.body.limit)
+            .then(article => res.status(200).json(article))
+            .catch(error => res.status(400).json({
+                error: error
+            }));
+    } else {
+        res.status(200).json([]);
+    }
+    
+});
+
 
 module.exports = router;

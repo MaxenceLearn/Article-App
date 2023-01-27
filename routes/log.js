@@ -120,4 +120,41 @@ router.delete('/', (req, res) => {
         }));
 });
 
+router.put('/', avatarCheck, (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.json({
+        logged: false
+    });
+    const decodedToken = jwt.verify(token, 'TOKEN');
+    const userId = decodedToken.userId;
+    User.findOne({
+            _id: userId
+        })
+        .then(user => {
+            if (!user || !req.body.pseudo) {
+                return res.status(401).json({
+                    error: 'Please specify an username !'
+                });
+            }
+            const updatedUser = {
+                pseudo: req.body.pseudo,
+            };
+            if (req.body.avatar) {
+                updatedUser.avatar = req.body.avatar;
+            }
+            User.updateOne({
+                    _id: userId
+                }, updatedUser)
+                .then(() => res.status(200).json({
+                    message: 'Utilisateur modifié !'
+                }))
+                .catch(error => res.status(500).json({
+                    error: error
+                }));
+        })
+        .catch(error => res.status(500).json({
+            error: error
+        }));
+});
+
 module.exports = router;

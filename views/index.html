@@ -49,15 +49,32 @@
             </button>
             <button class="cancel" style="background-color: transparent; border: 1px solid #4a4a4a; color: black;" >Cancel</button>
         </div> 
+        <div id="update-popup" class="log">
+            <input type="text" id="username-tu" placeholder="Username">
+            <input type="text" id="avatar-tu" placeholder="AvatarUrl">
+            <button id="update" type="button" onclick="this.classList.add('button--loading')">
+                <span class="button__text">Update</span>
+            </button>
+            <button class="cancel" style="background-color: transparent; border: 1px solid #4a4a4a; color: black;" >Cancel</button>
+        </div> 
     <!-- -------------------------------------------- -->
 
     <section class="section home">
         <section class="home-main">
             <div class="home-head">
-                <input type="text" class="search" placeholder="Search">
-                <div>
-                    <img src="./assets/favoris.png" alt="Logo" id="favoris" class="icos">
-                    <img src="./assets/notification.png" alt="Logo" id="notifs" class="icos">
+                <input onclick="getFlow()" id="home-search" type="text" class="search" placeholder="Search">
+                <div id="ui-home" class="user-infos">
+                    <img src="./assets/default.png" alt="Logo" class="user-img">
+                    <h1 class="user-name" id="user-name">Maxence</h1>
+                </div>
+                <div id="ui-buttons" class="buttons-log">
+                    <button id="signin-button" class="sign open-modal">Sign In</button>
+                    <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign open-modal">SignUp</button>
+                </div>
+                <div class="utils">
+                    <img src="./assets/favoris.svg" alt="Logo" id="favoris" class="icos">
+                    <img src="./assets/notification.svg" alt="Logo" id="notifs" class="icos">
+                    <img src="./assets/log-out.svg" alt="Logo" id="logout" class="icos">
                 </div>
             </div>
             <div style="width: 100%;" class="divider"></div>
@@ -89,12 +106,12 @@
         </section>
         <section class="infos">
             <div class="buttons-log">
-                <button id="signin-button" class="sign">Sign In</button>
-                <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign">SignUp</button>
+                <button id="signin-button" class="sign open-modal">Sign In</button>
+                <button id="signup-button" style="color: #000000; border: 1px solid #000000; background: transparent; width: 35%;" class="sign open-modal">SignUp</button>
             </div>
-            <div class="user-infos">
+            <div id="ui-sidebar" class="user-infos">
                 <img src="./assets/default.png" alt="Logo" class="user-img">
-                <h1 id="user-name">User</h1>
+                <h1 class="user-name" id="user-name">User</h1>
             </div>
             <div class="premium">
                 <img src="./assets/premium.png" alt="Logo" class="premium-img">
@@ -110,7 +127,7 @@
 
     <section class="section flow">
         <div class="home-head">
-            <input style="width: 80%;" type="text" class="search" placeholder="Search">
+            <input type="text" class="search" placeholder="Search" id="search-input">
         </div>
             <div class="topics-flow">
                 <div id="current" class="topic">Health</div>
@@ -124,61 +141,7 @@
             </div>
         </div>
         <div class="articles-flow">
-            <div class="flow-art-main art-load">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
-            <div class="flow-art-main">
-                <img src="./assets/abstract.jpg"Logo" class="home-art-img">
-                <h1 class="home-art-title">Why you beed AI Robot for Your Office And how it works </h1>
-                <p class="home-art-desc">In this article, we’ll learn about how to discuss about robot and future work</p>
-            </div>
+            
         </div>
     </section>
     
@@ -201,7 +164,7 @@
             </div>
             <div class="divider"></div>
             <h1 style="font-weight: 600;" class="more-title">More Interesting Topic</h1>
-            <div class="topics">
+            <div onclick="getFlow()" class="topics">
                 <div class="topic">Health</div>
                 <div class="topic">Economy</div>
                 <div class="topic">Tech</div>
@@ -217,7 +180,13 @@
         <h1 data-max-length="10" class="edit-title">Article Editor V1</h1>
         <input maxlength="200" minlength="10" type="text" class="edit-title-input" placeholder="Article title here">
         <textarea maxlength="85" minlength="10" class="edit-textarea" placeholder="Article description here"></textarea>
-        <input id="preview" maxlength="500" minlength="6" type="text" class="edit-title-input" placeholder="Thumbmail, url.png/jpg">
+        <form enctype="multipart/form-data">
+            <div class='file-input'>
+                <input class="file" type="file" name="thumbnail" id="thumbnail" />
+                <span class='button'>Choose an image</span>
+                <span class='label' data-js-label>No file selected</label>
+            </div>
+          </form>
         <div class="topics">
             <div id="selected" class="topic current health">Health</div>
             <div class="topic">Economy</div>
@@ -265,10 +234,6 @@
                 <img src="./assets/image.png" class="icon-element">
                 <p class="element-infos">Image<br><span class="element-desc">Add an image to your article wich can be resized</span></p>
             </li>
-            <li id="youtube" class="element youtube">
-                <img src="./assets/youtube.png" class="icon-element">
-                <p class="element-infos">Youtube<br><span class="element-desc">Embed a youtube video</span></p>
-            </li>
         </ul>
         <ul class="art-content full contain-main">
         </ul>
@@ -287,8 +252,7 @@
                     <h3 class="profile-username">Jarred Bena</h3>
                     <h4 class="profil-username-infos">User @jarredbena</h4>
                     <div class="profil-options">
-                        <button>Share profil<img src="./assets/share.svg"></button>
-                        <button>Edit profil<img src="./assets/profil-edit.svg"></button>
+                        <button id="update" class="open-modal">Edit profil<img src="./assets/profil-edit.svg"></button>
                         <button>Switch to business<img src="./assets/business.svg"></button>
                         <button onclick="deleteUser()" id="delete">Delete profile<img src="./assets/delete.svg"></button>
                     </div>
