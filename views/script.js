@@ -28,7 +28,6 @@ document.querySelectorAll('.topic').forEach(item => {
 
 
 function getHome() {
-    window.history.pushState('page', 'Title', `/`);
     document.getElementById('home').click() 
     document.querySelectorAll('.section').forEach(item => {
         item.removeAttribute('id')
