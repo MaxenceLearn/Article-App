@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const avatarCheck = require('../middlewares/avatarCheck');
 const Article = require('../models/article');
 router.post('/', avatarCheck, (req, res) => {
+    console.log(req.body);
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
