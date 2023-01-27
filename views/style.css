@@ -285,7 +285,7 @@ div.profile-articles {
     padding: 20px;
 }
 
-div.stats {
+div.campaigns {
     width: 38%;
     margin-left: auto;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.07);
@@ -601,6 +601,7 @@ h1.art-title {
 }
 
 div.paragraph > p {
+    white-space: pre-wrap;
     margin-top: 10px;
     font-size: 1rem;
     font-weight: 300;
@@ -1715,7 +1716,7 @@ div.user-infos > h1 {
     div.profile {
         width: 100%;
     }
-    div.stats {
+    div.campaigns {
         width: 100%;
         margin-left: 0;
     }

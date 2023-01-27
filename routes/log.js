@@ -71,10 +71,9 @@ router.post('/login', (req, res) => {
       });
 });
 
-router.get('/logout', (req, res) => {
-    res.clearCookie('token').status(200).json({
-        message: 'Déconnexion réussie !'
-    });
+router.get('/sellix', (req, res) => {
+    console.log(req.body);
+    console.log(req.headers);
 });
 
 router.get('/logout', (req, res) => {
