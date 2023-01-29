@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
@@ -46,7 +47,8 @@ router.post('/login', (req, res) => {
                 const token = jwt.sign({
                         userId: user._id,
                         username: user.pseudo,
-                        avatar: user.avatar
+                        avatar: user.avatar,
+                        role: user.role
                     },
                     'TOKEN', {
                         expiresIn: '24h'
@@ -71,9 +73,30 @@ router.post('/login', (req, res) => {
       });
 });
 
-router.get('/sellix', (req, res) => {
-    console.log(req.body);
-    console.log(req.headers);
+router.post('/sellixs', (req, res) => {
+    const crypto = require('crypto');
+
+    // Get the JSON encoded request body
+    const requestBody = JSON.stringify(req.body);
+
+    // Get the shared secret used for signing the request
+    const sharedSecret = 'test123456789';
+
+    // Get the signature from the headers
+    const signature = req.headers['x-sellix-unescaped-signature'];
+
+    // Create a new HMAC object
+    const hmac = crypto.createHmac('sha512', sharedSecret);
+
+    // Update the HMAC object with the request body
+    hmac.update(requestBody);
+
+    const origin = hmac.digest('hex') 
+    if (origin === signature) {
+        console.log('Request is authentic');
+    } else {
+        console.log('Request is not authentic');
+    }
 });
 
 router.get('/logout', (req, res) => {

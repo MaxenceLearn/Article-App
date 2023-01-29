@@ -4,6 +4,7 @@ const articleCheck = require('../middlewares/articleCheck');
 const Article = require('../models/article');
 const jwt = require('jsonwebtoken');
 const fileUpload = require('../middlewares/uploadFile');
+const User = require('../models/user');
 router.post('/', fileUpload, articleCheck, (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.json({ logged: false });
@@ -50,6 +51,7 @@ router.delete('/', (req, res) => {
     if (!token) return res.json({ logged: false });
     const decodedToken = jwt.verify(token, 'TOKEN');
     const userId = decodedToken.userId;
+    const userRole = decodedToken.role;
     Article.findOne({
             _id: req.body.id
         })
@@ -59,7 +61,7 @@ router.delete('/', (req, res) => {
                     error: 'Article non trouvé !'
                 });
             }
-            if (article.author != userId) {
+            if (article.author != userId || userRole != 'admin') {
                 return res.status(401).json({
                     error: 'Vous n\'êtes pas l\'auteur de cet article !'
                 });
