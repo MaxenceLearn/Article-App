@@ -15,7 +15,7 @@ app.use(express.static('./views'));
 
 // Connexion à la base de données
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://admin:nSfNRGjtYYrVZvcq@cluster0.ap1m6ba.mongodb.net/?retryWrites=true&w=majority', 
+mongoose.connect('mongodb+srv://admin:<password>@cluster0.ap1m6ba.mongodb.net/?retryWrites=true&w=majority', 
 { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('Connexion à MongoDB réussie !'))
 .catch(() => console.log('Connexion à MongoDB échouée !'));
